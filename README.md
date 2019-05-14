@@ -10,3 +10,8 @@ Boilerplate for react web applications
 4 - Run 'yarn clean' to delete the example app.
 
 
+## Run
+
+'yarn start' will run the development enviroment 
+'yarn run:prod' will run the prod enviroment
+ 
