@@ -34,11 +34,9 @@ export const RESET_DELETED_POST = 'RESET_DELETED_POST';
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost/api' : '/api';
 export function fetchPosts() {
-    const request = axios({
-        method: 'get',
-        url: `${ROOT_URL}/posts`,
-        headers: []
-    });
+    const request = fetch(ROOT_URL + '/posts')
+
+
 
     return {
         type: FETCH_POSTS,
