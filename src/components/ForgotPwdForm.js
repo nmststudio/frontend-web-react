@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
     //forgotPwd,
     //forgotPwdSuccess,
     //forgotPwdFailure,
     resetUserFields
 } from '../actions/users';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import renderField from './renderField';
 
@@ -63,31 +63,28 @@ class ForgotPwdForm extends Component {
         const { handleSubmit, submitting } = this.props;
 
         return (
-            <div className="container">
-        <form onSubmit={ handleSubmit(validateAndForgotPwd) }>
-          <Field
-                 name="email"
-                 type="email"
-                 component={ renderField }
-                 label="Email*" />
-          <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={ submitting }>
-            Submit
-          </button>
-          <Link
-                to="/"
-                className="btn btn-error"> Cancel
-          </Link>
-        </form>
-      </div>
+            <div className="container">      </div>
+
+            // <form onSubmit={ handleSubmit(validateAndForgotPwd) }>
+            //   <Field
+            //          name="email"
+            //          type="email"
+            //          component={ renderField }
+            //          label="Email*" />
+            //   <button
+            //           type="submit"
+            //           className="btn btn-primary"
+            //           disabled={ submitting }>
+            //     Submit
+            //   </button>
+            //   <Link
+            //         to="/"
+            //         className="btn btn-error"> Cancel
+            //   </Link>
+            // </form>
 
         );
     }
 }
 
-export default reduxForm({
-    form: 'ForgotPwdForm', // a unique identifier for this form
-    validate, // <--- validation function given to redux-form
-})(ForgotPwdForm)
+export default ForgotPwdForm

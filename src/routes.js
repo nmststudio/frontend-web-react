@@ -1,5 +1,6 @@
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { React, Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 
 import App from './pages/App';
 import PostsIndex from './pages/PostsIndex';
@@ -11,9 +12,15 @@ import ForgotPwd from './pages/ForgotPwd';
 import ValidateEmail from './pages/ValidateEmail';
 import Profile from './pages/Profile';
 
-export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={PostsIndex} />
+
+
+class AppRoutes extends Component {
+
+
+    render() {
+        return (
+            <Router component={App}>
+    <Route exact path="/" component={PostsIndex} />
     <Route path="posts/new" component={PostsNew} />
     <Route path="posts/:id" component={PostsShow} />
     <Route path="/signin" component={SignIn} />
@@ -21,5 +28,9 @@ export default (
     <Route path="/forgotPwd" component={ForgotPwd} />
     <Route path="/validateEmail/:token" component={ValidateEmail} />
     <Route path="/profile" component={Profile} />
-  </Route>
-);
+  </Router>
+        );
+    }
+}
+
+export default AppRoutes;

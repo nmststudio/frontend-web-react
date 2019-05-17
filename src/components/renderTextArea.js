@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 
 const renderField = ({ input, label, type, meta: { touched, error, invalid, warning } }) => (
-  <div className={`form-group ${touched && invalid ? 'has-error' : ''}`}>
+    <div className={`form-group ${touched && invalid ? 'has-error' : ''}`}>
     <label  className="control-label">{label}</label>
     <div>
       <textarea {...input} className="form-control"  placeholder={label} type={type}/>
