@@ -4,7 +4,7 @@
   "description": "Shows how to build React Redux CRUD apps",
   "main": "index.js",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open --mode development",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open --mode development --hot",
     "build": "node node_modules/.bin/webpack --mode production --module-bind js=babel-loader",
     "dev": "node node_modules/.bin/webpack --mode development --module-bind js=babel-loader"
   },

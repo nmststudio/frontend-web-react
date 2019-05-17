@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import AppRoutes from './routes';
 import configureStore from './store/configureStore.js';
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
 import App from './pages/App';
@@ -24,14 +24,30 @@ const store = configureStore();
 ReactDOM.render(
     <Provider store={store}>
         <Router component={App}>
-    <Route exact path="/" component={PostsIndex} />
-    <Route path="posts/new" component={PostsNew} />
-    <Route path="posts/:id" component={PostsShow} />
-    <Route path="/signin" component={SignIn} />
-    <Route path="/signup" component={SignUp} />
-    <Route path="/forgotPwd" component={ForgotPwd} />
-    <Route path="/validateEmail/:token" component={ValidateEmail} />
-    <Route path="/profile" component={Profile} />
-  </Router>
-
-  </Provider>, document.getElementById('body'));
+       		<Switch>
+			    <Route exact path="/" component={PostsIndex} /> <
+Route path = "posts/new"
+component = { PostsNew }
+/> <
+Route path = "posts/:id"
+component = { PostsShow }
+/> <
+Route path = "/signin"
+component = { SignIn }
+/> <
+Route path = "/signup"
+component = { SignUp }
+/> <
+Route path = "/forgotPwd"
+component = { ForgotPwd }
+/> <
+Route path = "/validateEmail/:token"
+component = { ValidateEmail }
+/> <
+Route path = "/profile"
+component = { Profile }
+/>
+			</Switch>
+ 	 	</Router>
+ 	</Provider>,
+    document.getElementById('body'));
