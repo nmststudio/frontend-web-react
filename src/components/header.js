@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+    withRouter
+} from 'react-router-dom'
 
-import { Link } from "react-router-dom";
 
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
     static contextTypes = {
@@ -19,44 +22,47 @@ class Header extends Component {
         if (nextProps.deletedPost.error && nextProps.deletedPost.error.message) { //delete failure
             alert(nextProps.deletedPost.error.message || 'Could not delete. Please try again.');
         } else if (nextProps.deletedPost.post && !nextProps.deletedPost.error) { //delete success
-            this.context.router.push('/');
+            this.props.history.push('/')
+
         } else if (this.props.user.user && !nextProps.user.user) { //logout (had user(this.props.user.user) but no loger the case (!nextProps.user.user))
-            this.context.router.push('/');
+            this.props.history.push('/')
+
         }
     }
 
     renderSignInLinks(authenticatedUser) {
+        console.log('Rendering header', authenticatedUser)
         if (authenticatedUser) {
             return (
                 <ul className="nav  nav-pills navbar-right">
-            <li style={{paddingRight: '10px'}} role="presentation">      
-              <Link role="presentation" style={{color:'#996633',  fontSize: '17px'}} to="/profile">
-              {authenticatedUser.name}
-              </Link>
-            </li>
-            <li style={{paddingRight: '10px'}} role="presentation">      
-              <a style={{color:'#996633',  fontSize: '17px'}}  onClick={this.props.logout} href="javascript:void(0)">
-              Log out
-              </a>
-            </li>
-        </ul>
+                  <li style={{paddingRight: '10px'}} role="presentation">      
+                    <Link role="presentation" style={{color:'#996633',  fontSize: '17px'}} to="/profile">
+                    {authenticatedUser.name}
+                    </Link>
+                  </li>
+                  <li style={{paddingRight: '10px'}} role="presentation">      
+                    <a style={{color:'#996633',  fontSize: '17px'}}  onClick={this.props.logout} href="javascript:void(0)">
+                    Log out
+                    </a>
+                  </li>
+              </ul>
+            );
+        } else {
+            return (
+                <ul className="nav  nav-pills navbar-right">
+              <li style={{paddingRight: '10px'}} role="presentation">      
+                <Link  role="presentation" style={{color:'#996633',  fontSize: '17px'}} to="/signup">
+                Sign up
+                </Link>
+              </li>
+              <li style={{paddingRight: '10px'}} role="presentation">      
+                <Link style={{color:'#996633',  fontSize: '17px'}} to="/signin">
+                Sign in
+                </Link>
+              </li>
+          </ul>
             );
         }
-
-        return (
-            <ul className="nav  nav-pills navbar-right">
-          <li style={{paddingRight: '10px'}} role="presentation">      
-            <Link  role="presentation" style={{color:'#996633',  fontSize: '17px'}} to="/signup">
-            Sign up
-            </Link>
-          </li>
-          <li style={{paddingRight: '10px'}} role="presentation">      
-            <Link style={{color:'#996633',  fontSize: '17px'}} to="/signin">
-            Sign in
-            </Link>
-          </li>
-      </ul>
-        );
     }
 
     renderLinks() {
@@ -106,6 +112,7 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-default navbar-static-top">
             <div id="navbar" className="navbar-collapse collapse">
+            <span> Test </span>
             {this.renderLinks()}
             </div>     
        </nav>
@@ -113,4 +120,4 @@ class Header extends Component {
     }
 }
 
-export default Header
+export default withRouter(Header)

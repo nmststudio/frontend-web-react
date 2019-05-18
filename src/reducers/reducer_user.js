@@ -2,9 +2,9 @@ import {
     VALIDATE_EMAIL,
     VALIDATE_EMAIL_SUCCESS,
     VALIDATE_EMAIL_FAILURE,
-    ME_FROM_TOKEN,
-    ME_FROM_TOKEN_SUCCESS,
-    ME_FROM_TOKEN_FAILURE,
+    RETRIEVE_USER_FROM_TOKEN,
+    RETRIEVE_USER_FROM_TOKEN_SUCCESS,
+    RETRIEVE_USER_FROM_TOKEN_FAILURE,
     RESET_TOKEN,
     SIGNUP_USER,
     SIGNUP_USER_SUCCESS,
@@ -42,11 +42,11 @@ export default function(state = INITIAL_STATE, action) {
             error = action.payload.data || { message: action.payload.message }; //2nd one is network or server down errors       
             return { ...state, user: null, status: 'validate_email', error: error, loading: false }; //<-- authenticated
 
-        case ME_FROM_TOKEN: // loading currentUser("me") from jwttoken in local/session storage storage,
+        case RETRIEVE_USER_FROM_TOKEN: // loading currentUser("me") from jwttoken in local/session storage storage,
             return { ...state, user: null, status: 'storage', error: null, loading: true };
-        case ME_FROM_TOKEN_SUCCESS: //return user, status = authenticated and make loading = false
-            return { ...state, user: action.payload.data.user, status: 'authenticated', error: null, loading: false }; //<-- authenticated
-        case ME_FROM_TOKEN_FAILURE: // return error and make loading = false
+        case RETRIEVE_USER_FROM_TOKEN_SUCCESS: //return user, status = authenticated and make loading = false
+            return { ...state, user: action.payload, status: 'authenticated', error: null, loading: false }; //<-- authenticated
+        case RETRIEVE_USER_FROM_TOKEN_FAILURE: // return error and make loading = false
             error = action.payload.data || { message: action.payload.message }; //2nd one is network or server down errors   
             return { ...state, user: null, status: 'storage', error: error, loading: false };
         case RESET_TOKEN: // remove token from storage make loading = false

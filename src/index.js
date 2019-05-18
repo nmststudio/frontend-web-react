@@ -23,7 +23,8 @@ const store = configureStore();
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router component={App}>
+       <App>
+        <Router>
        		<Switch>
 			    <Route exact path="/" component={PostsIndex} /> <
 Route path = "posts/new"
@@ -49,5 +50,6 @@ component = { Profile }
 />
 			</Switch>
  	 	</Router>
+ 	 	</App>
  	</Provider>,
     document.getElementById('body'));

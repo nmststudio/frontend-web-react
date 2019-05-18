@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+    withRouter
+} from 'react-router-dom'
 
 import { Link } from 'react-router-dom';
 
@@ -11,14 +14,15 @@ class ValidateEmailAlert extends Component {
     componentDidMount() {
         //automatically verify for token if autoValidateToken is set to true (e.g. in ValidateEmail *page*)
         if (this.props.autoValidateToken) {
-            this.props.validateEmail(this.props.token);
+            // this.props.validateEmail(this.props.token);
         }
     }
 
     componentWillReceiveProps(nextProps) {
         //if user is authenticated, then reroute the user to PostsList as authenticated user
         if (nextProps.user && nextProps.user.status === 'authenticated' && nextProps.user.user && !nextProps.user.error) {
-            this.context.router.push('/');
+            //this.props.history.push('/')
+
         }
     }
 
@@ -44,8 +48,8 @@ class ValidateEmailAlert extends Component {
 
     render() {
         let alertMessage = this.getAlertMessage();
-
-        if (alertMessage) {
+        // TODO if you want to activate email confirmation 
+        if (alertMessage && false) {
             return (
                 <div className="container">
           <div className="alert alert-danger">
@@ -61,4 +65,4 @@ class ValidateEmailAlert extends Component {
     }
 }
 
-export default ValidateEmailAlert;
+export default withRouter(ValidateEmailAlert);

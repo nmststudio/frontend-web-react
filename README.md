@@ -16,5 +16,9 @@ yarn start
 ## Todo
 
 
-- [ ] Replace axios with fetch
-- [ ] Migrate to React Final Form
+- [x] Replace axios with fetch
+- [x] Migrate to React Final Form
+- [x] Update to latest version of react, redux, router
+- [x] Implement logout 
+- [x] Implement user replenish from token   
+- [ ] Implement sign in 

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 //Get current user(me) from token in localStorage
-export const ME_FROM_TOKEN = 'ME_FROM_TOKEN';
-export const ME_FROM_TOKEN_SUCCESS = 'ME_FROM_TOKEN_SUCCESS';
-export const ME_FROM_TOKEN_FAILURE = 'ME_FROM_TOKEN_FAILURE';
+export const RETRIEVE_USER_FROM_TOKEN = 'RETRIEVE_USER_FROM_TOKEN';
+export const RETRIEVE_USER_FROM_TOKEN_SUCCESS = 'RETRIEVE_USER_FROM_TOKEN_SUCCESS';
+export const RETRIEVE_USER_FROM_TOKEN_FAILURE = 'RETRIEVE_USER_FROM_TOKEN_FAILURE';
 export const RESET_TOKEN = 'RESET_TOKEN';
 
 //Sign Up User
@@ -57,33 +57,32 @@ export function validateEmailFailure(error) {
     };
 }
 
-export function meFromToken(tokenFromStorage) {
+export function retrieveUserFromToken(tokenFromStorage) {
     //check if the token is still valid, if so, get me from the server
 
-    const request = axios({
-        method: 'get',
-        url: `${ROOT_URL}/me/from/token?token=${tokenFromStorage}`,
+    const request = fetch(`${ROOT_URL}/signin/token`, {
+        method: 'GET',
         headers: {
             'Authorization': `Bearer ${tokenFromStorage}`
         }
-    });
-
+    })
     return {
-        type: ME_FROM_TOKEN,
+        type: RETRIEVE_USER_FROM_TOKEN,
         payload: request
     };
 }
 
-export function meFromTokenSuccess(currentUser) {
+export function retrieveUserFromTokenSuccess(currentUser) {
+    console.log('RetrieveUserFromTokenSuccess')
     return {
-        type: ME_FROM_TOKEN_SUCCESS,
+        type: RETRIEVE_USER_FROM_TOKEN_SUCCESS,
         payload: currentUser
     };
 }
 
-export function meFromTokenFailure(error) {
+export function retrieveUserFromTokenFailure(error) {
     return {
-        type: ME_FROM_TOKEN_FAILURE,
+        type: RETRIEVE_USER_FROM_TOKEN_FAILURE,
         payload: error
     };
 }

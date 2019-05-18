@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+    withRouter
+} from 'react-router-dom'
 
 import { Link } from 'react-router-dom';
 import { Form, Field } from 'react-final-form'
@@ -68,8 +71,8 @@ class SignUpForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user.status === 'authenticated' && nextProps.user.user && !nextProps.user.error) {
-            console.log(this.context)
-
+            console.log(this.props.history)
+            this.props.history.push('/')
             //this.context.router.push('/');
         }
     }
@@ -129,4 +132,4 @@ class SignUpForm extends Component {
     }
 }
 
-export default SignUpForm
+export default withRouter(SignUpForm)
