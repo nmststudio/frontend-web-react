@@ -29,7 +29,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     !response.error ? dispatch(deletePostSuccess(response.payload)) : dispatch(deletePostFailure(response.payload));
                 });
         },
-        resetMe: () => {dispatch(resetDeletedPost());
+        resetMe: () => {
+            dispatch(resetDeletedPost());
         },
 
         logout: () => {

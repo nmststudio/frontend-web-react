@@ -3,39 +3,20 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 import { Form, Field } from 'react-final-form'
-import renderField from './renderField';
 import { validateUserFields, validateUserFieldsSuccess, validateUserFieldsFailure, resetValidateUserFields } from '../actions/validateUserFields';
-import { signUpUser, signUpUserSuccess, signUpUserFailure, } from '../actions/users';
+import { signUpUserSuccess, signUpUserFailure, } from '../actions/users';
 
 //Client side validation
 function validate(values) {
     var errors = {};
     var hasErrors = false;
 
-    if (!values.name || values.name.trim() === '') {
-        errors.name = 'Enter a name';
-        hasErrors = true;
-    }
     if (!values.username || values.username.trim() === '') {
         errors.username = 'Enter username';
         hasErrors = true;
     }
-    if (!values.email || values.email.trim() === '') {
-        errors.email = 'Enter email';
-        hasErrors = true;
-    }
     if (!values.password || values.password.trim() === '') {
         errors.password = 'Enter password';
-        hasErrors = true;
-    }
-    if (!values.confirmPassword || values.confirmPassword.trim() === '') {
-        errors.confirmPassword = 'Enter Confirm Password';
-        hasErrors = true;
-    }
-
-    if (values.confirmPassword && values.confirmPassword.trim() !== '' && values.password && values.password.trim() !== '' && values.password !== values.confirmPassword) {
-        errors.password = 'Password And Confirm Password don\'t match';
-        errors.password = 'Password And Confirm Password don\'t match';
         hasErrors = true;
     }
     return hasErrors && errors;
@@ -45,6 +26,7 @@ function validate(values) {
 
 // //For instant async server validation
 const asyncValidate = (values, dispatch) => {
+
     return dispatch(validateUserFields(values))
         .then((result) => {
             //Note: Error's "data" is in result.payload.response.data
@@ -67,34 +49,16 @@ const asyncValidate = (values, dispatch) => {
         });
 };
 
-
-
-//For any field errors upon submission (i.e. not instant check)
-const validateAndSignUpUser = (values, dispatch) => {
-    return dispatch(signUpUser(values))
-        .then((result) => {
-
-            // Note: Error's "data" is in result.payload.response.data (inside "response")
-            // success's "data" is in result.payload.data
-            if (result.payload.response && result.payload.response.status !== 200) {
-                dispatch(signUpUserFailure(result.payload.response.data));
-                //throw new SubmissionError(result.payload.response.data);
-            }
-
-            //Store JWT Token to browser session storage 
-            //If you use localStorage instead of sessionStorage, then this w/ persisted across tabs and new windows.
-            //sessionStorage = persisted only in current tab
-            sessionStorage.setItem('jwtToken', result.payload.data.token);
-            //let other components know that everything is fine by updating the redux` state
-            dispatch(signUpUserSuccess(result.payload.data)); //ps: this is same as dispatching RESET_USER_FIELDS
-        });
-};
-
-
 class SignUpForm extends Component {
     static contextTypes = {
         router: PropTypes.object
     };
+
+    constructor(props) {
+        super(props);
+        // This binding is necessary to make `this` work in the callback
+        this.validateAndSignUpUser = this.validateAndSignUpUser.bind(this);
+    }
 
     componentWillMount() {
         //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
@@ -104,16 +68,63 @@ class SignUpForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user.status === 'authenticated' && nextProps.user.user && !nextProps.user.error) {
-            this.context.router.push('/');
+            console.log(this.context)
+
+            //this.context.router.push('/');
         }
     }
 
+    validateAndSignUpUser(values, dispatch) {
+        return this.props.signUpUser(values)
+    };
+
     render() {
-        debugger;
-        const { asyncValidating, handleSubmit, submitting, asyncValidate, validate } = this.props;
+        const { asyncValidating, handleSubmit, submitting, asyncValidate, validate, dispatch } = this.props;
         return (
             <div className='container'>
-      </div>
+           <Form
+           validate={validate}
+           initialValues={{ username:Math.floor(Math.random()*10000000)+'@g.com',password:'test' }}
+            onSubmit={this.validateAndSignUpUser}
+            render={({ handleSubmit, form, submitting, pristine, values }) => (
+              <form onSubmit = { handleSubmit }>
+                <div>
+                  <label>Username</label>
+                  <Field
+                    name="username"
+                    component="input"
+                    type="text"
+                    placeholder="username"
+                  />
+                </div> 
+                <div>
+                  <label>Password</label>
+                  <Field
+                    name="password"
+                    component="input"
+                    type="password"
+                    placeholder="Password"
+                  />
+                </div>
+               
+                <div className="buttons">
+                  <button type="submit" disabled={submitting}>
+                    Submit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={form.reset}
+                    disabled={submitting || pristine}
+                  >
+                    Reset
+                  </button>
+                </div>
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
+                <pre>{JSON.stringify(this.props.state, 0, 2)}</pre>
+              </form>
+            )}
+          />
+             </div>
         )
     }
 }

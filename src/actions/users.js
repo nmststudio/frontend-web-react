@@ -31,7 +31,7 @@ export const UPDATE_USER_EMAIL = 'UPDATE_USER_EMAIL';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 
-const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost/api' : '/api';
+const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost' : '/api';
 
 export function validateEmail(validateEmailToken) {
     //check if token from welcome email is valid, if so, update email as verified and login the user from response
@@ -97,8 +97,15 @@ export function resetToken() { //used for logout
 
 
 export function signUpUser(formValues) {
-    const request = axios.post(`${ROOT_URL}/users/signup`, formValues);
 
+
+    const request = fetch(`${ROOT_URL}/signup`, {
+        method: 'POST',
+        body: JSON.stringify(formValues),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
     return {
         type: SIGNUP_USER,
         payload: request
@@ -106,6 +113,7 @@ export function signUpUser(formValues) {
 }
 
 export function signUpUserSuccess(user) {
+    console.log('received action', user)
     return {
         type: SIGNUP_USER_SUCCESS,
         payload: user
