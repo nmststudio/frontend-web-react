@@ -134,8 +134,14 @@ export function resetUser() {
 }
 
 export function signInUser(formValues) {
-    const request = axios.post(`${ROOT_URL}/users/signin`, formValues);
 
+    const request = fetch(`${ROOT_URL}/signin`, {
+        method: 'POST',
+        body: JSON.stringify(formValues),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
     return {
         type: SIGNIN_USER,
         payload: request
@@ -143,6 +149,7 @@ export function signInUser(formValues) {
 }
 
 export function signInUserSuccess(user) {
+
     return {
         type: SIGNIN_USER_SUCCESS,
         payload: user

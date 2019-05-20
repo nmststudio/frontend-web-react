@@ -112,7 +112,6 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-default navbar-static-top">
             <div id="navbar" className="navbar-collapse collapse">
-            <span> Test </span>
             {this.renderLinks()}
             </div>     
        </nav>
