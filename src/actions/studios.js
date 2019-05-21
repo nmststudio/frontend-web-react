@@ -11,7 +11,7 @@ export const FETCH_STUDIOS_FAILURE = 'FETCH_STUDIOS_FAILURE';
 
 
 
-const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost/' : '/api';
+const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost' : '/api';
 export function fetchStudios() {
     const request = fetch(ROOT_URL + '/studios')
     return {
@@ -22,7 +22,7 @@ export function fetchStudios() {
 
 export function fetchStudiosSuccess(studios) {
     return {
-        type: FETCH_STUDIO_SUCCESS,
+        type: FETCH_STUDIOS_SUCCESS,
         payload: studios
     };
 }
@@ -36,7 +36,7 @@ export function fetchStudiosFailure(error) {
 
 export function createStudio(props, tokenFromStorage) {
 
-    const request = fetch(`${ROOT_URL}/signup`, {
+    const request = fetch(`${ROOT_URL}/studio`, {
         method: 'POST',
         body: JSON.stringify(props),
         headers: {

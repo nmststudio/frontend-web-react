@@ -15,43 +15,11 @@ import { createPost, createPostSuccess, createPostFailure, resetNewPost } from '
 function validate(values) {
     const errors = {};
 
-    if (!values.title || values.title.trim() === '') {
-        errors.title = 'Enter a Title';
+    if (!values.name || values.name.trim() === '') {
+        errors.name = 'Enter a Title';
     }
-    if (!values.categories || values.categories.trim() === '') {
-        errors.categories = 'Enter categories';
-    }
-    if (!values.content || values.content.trim() === '') {
-        errors.content = 'Enter some content';
-    }
-
     return errors;
 }
-
-//For instant async server validation
-const asyncValidate = (values, dispatch) => {
-    return dispatch(validatePostFields(values))
-        .then((result) => {
-            //Note: Error's "data" is in result.payload.response.data
-            // success's "data" is in result.payload.data
-            if (!result.payload.response) { //1st onblur
-                return;
-            }
-
-            let { data, status } = result.payload.response;
-            //if status is not 200 or any one of the fields exist, then there is a field error
-            if (response.payload.status != 200 || data.title || data.categories || data.description) {
-                //let other components know of error by updating the redux` state
-                dispatch(validatePostFieldsFailure(data));
-                throw data; //throw error
-            } else {
-                //let other components know that everything is fine by updating the redux` state
-                dispatch(validatePostFieldsSuccess(data)); //ps: this is same as dispatching RESET_USER_FIELDS
-            }
-        });
-};
-
-
 
 
 
@@ -59,19 +27,16 @@ class StudioForm extends Component {
     static contextTypes = {
         router: PropTypes.object
     };
+    constructor(props) {
+        super(props);
+        // This binding is necessary to make `this` work in the callback
+        this.validateAndCreateStudio = this.validateAndCreateStudio.bind(this);
+        this.props.fetchStudios();
+    }
 
-    validateAndCreatePost(values, dispatch) {
-        return dispatch(createPost(values, sessionStorage.getItem('jwtToken')))
-            .then(result => {
-                // Note: Error's "data" is in result.payload.response.data (inside "response")
-                // success's "data" is in result.payload.data
-                if (result.payload.response && result.payload.response.status !== 200) {
-                    dispatch(createPostFailure(result.payload.response.data));
-                    throw new SubmissionError(result.payload.response.data);
-                }
-                //let other components know that everything is fine by updating the redux` state
-                dispatch(createPostSuccess(result.payload.data)); //ps: this is same as dispatching RESET_USER_FIELDS
-            });
+
+    validateAndCreateStudio(values, dispatch) {
+        return this.props.createStudio(values)
     }
 
     componentWillMount() {
@@ -81,41 +46,36 @@ class StudioForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.newPost.post && !nextProps.newPost.error) {
-            this.context.router.push('/');
-        }
+        // if (nextProps.newPost.post && !nextProps.newPost.error) {
+        //     this.context.router.push('/');
+        //  }
     }
 
 
     render() {
-        console.log('studio creation form loaded')
-        const { handleSubmit, submitting, newPost } = this.props;
+        console.log('studio creation form loaded', this)
+        const { handleSubmit, submitting } = this.props;
         return (
             <div className='container'>
         <Form
            validate={validate}
-           initialValues={{ username:Math.floor(Math.random()*10000000)+'@g.com',password:'test' }}
-            onSubmit={this.validateAndCreatePost}
+           initialValues={{ name:'Yoga '+Math.floor(Math.random()*1000) }}
+            onSubmit={this.validateAndCreateStudio}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
-              <form onSubmit = { handleSubmit }>
+              <form onSubmit = { event => {
+              handleSubmit({})
+              event.preventDefault();
+              console.log('PREVENTING DEFAULT') }} >
                 <div>
                   <label>Username</label>
                   <Field
-                    name="username"
+                    name="name"
                     component="input"
                     type="text"
-                    placeholder="username"
+                    placeholder="name"
                   />
                 </div> 
-                <div>
-                  <label>Password</label>
-                  <Field
-                    name="password"
-                    component="input"
-                    type="password"
-                    placeholder="Password"
-                  />
-                </div>
+                
                
                 <div className="buttons">
                   <button type="submit" disabled={submitting}>
@@ -133,8 +93,12 @@ class StudioForm extends Component {
                 <pre>{JSON.stringify(this.props.state, 0, 2)}</pre>
               </form>
             )}
-          />
-
+          /><pre>
+          <ul>
+          {this.props.studios.map(function(d, idx){
+            return (<li key={idx}>{d.name}</li>)
+         })}
+         </ul></pre>
            </div>
 
         )
