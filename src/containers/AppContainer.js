@@ -7,22 +7,26 @@ const mapDispatchToProps = (dispatch) => {
     return {
         loadUserFromToken: () => {
             console.log('trying to see if there is a local token')
-            let token = localStorage.getItem('jwtToken');
-            if (!token || token === '') { //if there is no token, dont bother
+
+            const token = localStorage.getItem('jwtToken');
+            console.log('there is a token', token, token === 'undefined');
+            if (!token || token === '' || token === 'undefined' || token === undefined) { //if there is no token, dont bother
                 console.log('no token');
                 return;
             }
-            console.log('there is a token');
+
             //fetch user from token (if server deems it's valid token)
             dispatch(retrieveUserFromToken(token))
                 .then((response) => {
-                    console.log('response')
+                    console.log('response', response)
 
                     if (false) {
                         localStorage.removeItem('jwtToken'); //remove token from storage
                         dispatch(retrieveUserFromTokenFailure(response.payload));
                     }
-                    return response.payload.json()
+                    var jsonReturn = response.payload.json()
+                    console.log(jsonReturn)
+                    return jsonReturn
                 }).then((user) => {
                     console.log(user);
                     //localStorage.setItem('jwtToken', response.payload.data.token);

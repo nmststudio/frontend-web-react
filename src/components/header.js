@@ -19,15 +19,16 @@ class Header extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.deletedPost.error && nextProps.deletedPost.error.message) { //delete failure
-            alert(nextProps.deletedPost.error.message || 'Could not delete. Please try again.');
-        } else if (nextProps.deletedPost.post && !nextProps.deletedPost.error) { //delete success
-            this.props.history.push('/')
+        /*
+          if (nextProps.deletedPost.error && nextProps.deletedPost.error.message) { //delete failure
+              alert(nextProps.deletedPost.error.message || 'Could not delete. Please try again.');
+          } else if (nextProps.deletedPost.post && !nextProps.deletedPost.error) { //delete success
+              this.props.history.push('/')
 
-        } else if (this.props.user.user && !nextProps.user.user) { //logout (had user(this.props.user.user) but no loger the case (!nextProps.user.user))
-            this.props.history.push('/')
+          } else if (this.props.user.user && !nextProps.user.user) { //logout (had user(this.props.user.user) but no loger the case (!nextProps.user.user))
+              this.props.history.push('/')
 
-        }
+          }*/
     }
 
     renderSignInLinks(authenticatedUser) {
@@ -44,6 +45,14 @@ class Header extends Component {
                     <a style={{color:'#996633',  fontSize: '17px'}}  onClick={this.props.logout} href="javascript:void(0)">
                     Log out
                     </a>
+                  </li>
+
+                  <li style={{paddingRight: '10px'}} role="presentation">      
+                    
+                    <Link role="presentation" style={{color:'#996633',  fontSize: '17px'}} to="/studios/new">
+                    Studio
+                    </Link>
+                   
                   </li>
               </ul>
             );

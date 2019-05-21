@@ -27,26 +27,29 @@ class PostsList extends Component {
             );
         });
     }
+    /*
+        render() {
+            const { posts, loading, error } = this.props.postsList;
 
-    render() {
-        const { posts, loading, error } = this.props.postsList;
+            if (loading) {
+                return <div className="container"><h1>Posts</h1><h3>Loading...</h3></div>
+            } else if (error) {
+                return <div className="alert alert-danger">Error Posts API:  {error.message}</div>
+            }
 
-        if (loading) {
-            return <div className="container"><h1>Posts</h1><h3>Loading...</h3></div>
-        } else if (error) {
-            return <div className="alert alert-danger">Error Posts API:  {error.message}</div>
+            return (
+                <div className="container">
+            <h1>Posts</h1>
+            <ul className="list-group">
+              {this.renderPosts(posts)}
+            </ul>
+          </div>
+            );
         }
-
-        return (
-            <div className="container">
-        <h1>Posts</h1>
-        <ul className="list-group">
-          {this.renderPosts(posts)}
-        </ul>
-      </div>
-        );
-    }
-}
+        */
+    render() {
+            return ( < > < />)}
+            }
 
 
-export default PostsList;
+            export default PostsList;
