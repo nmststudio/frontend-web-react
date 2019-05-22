@@ -7,7 +7,6 @@ import Header from '../components/header.js';
 
 
 function mapStateToProps(state) {
-    console.log('CURRENT PROPS', state.user.status === 'authenticated' ? state.user.user : null)
     return {
         deletedPost: state.posts.deletedPost,
         authenticatedUser: state.user.status === 'authenticated' ? state.user.user : null,

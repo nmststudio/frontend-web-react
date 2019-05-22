@@ -4,6 +4,10 @@ import {
     withRouter
 } from 'react-router-dom'
 import { Link } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import setMinutes from "date-fns/setMinutes";
+import setHours from "date-fns/setHours";
+
 import { Form, Field } from 'react-final-form'
 //import { reduxForm, Field, SubmissionError } from 'redux-form';
 import renderField from './renderField';
@@ -23,20 +27,40 @@ function validate(values) {
 
 
 
-class StudioForm extends Component {
+class ClassForm extends Component {
     static contextTypes = {
         router: PropTypes.object
     };
     constructor(props) {
         super(props);
         // This binding is necessary to make `this` work in the callback
-        this.validateAndCreateStudio = this.validateAndCreateStudio.bind(this);
-        this.props.fetchStudios();
+        this.validateAndCreateClass = this.validateAndCreateClass.bind(this);
+        this.handleStartDateChange = this.handleStartDateChange.bind(this);
+        this.handleEndDateChange = this.handleEndDateChange.bind(this);
+
+        this.state = {
+            startDate: new Date(),
+            endDate: new Date()
+        };
+
+    }
+
+    handleStartDateChange(date) {
+        this.setState({
+            startDate: date
+        });
+    }
+    handleEndDateChange(date) {
+        this.setState({
+            endDate: date
+        });
     }
 
 
-    validateAndCreateStudio(values, dispatch) {
-        this.props.createStudio(values)
+
+    validateAndCreateClass(values, dispatch) {
+        // this.props.createStudio(values)
+        console.log(values, this.state.startDate, this.state.endDate)
     }
 
     componentWillMount() {
@@ -56,17 +80,36 @@ class StudioForm extends Component {
         const { handleSubmit, submitting } = this.props;
         return (
             <div className='container'>
+             <DatePicker
+                  onChange={this.handleStartDateChange}
+                  selected={this.state.startDate}
+                  showTimeSelect
+                  minTime={setHours(setMinutes(new Date(), 0), 17)}
+                  maxTime={setHours(setMinutes(new Date(), 30), 20)}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  timeFormat="HH:mm"
+                />
+                             <DatePicker
+                  onChange={this.handleEndDateChange}
+                  selected={this.state.endDate}
+                  showTimeSelect
+                  minTime={setHours(setMinutes(new Date(), 0), 17)}
+                  maxTime={setHours(setMinutes(new Date(), 30), 20)}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  timeFormat="HH:mm"
+                />
+
         <Form
            validate={validate}
-           initialValues={{ name:'Yoga '+Math.floor(Math.random()*1000) }}
-            onSubmit={this.validateAndCreateStudio}
+           initialValues={{ name:'Class '+Math.floor(Math.random()*1000) }}
+            onSubmit={this.validateAndCreateClass}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
               <form onSubmit = { event => {
               handleSubmit({})
               event.preventDefault();
                }} >
                 <div>
-                  <label>Username</label>
+                  <label>Class Name</label>
                   <Field
                     name="name"
                     component="input"
@@ -94,9 +137,7 @@ class StudioForm extends Component {
             )}
           /><pre>
           <ul>
-          {this.props.studios.map(function(d, idx){
-            return (<li key={idx}>{d.name}</li>)
-         })}
+           
          </ul></pre>
            </div>
 
@@ -105,4 +146,4 @@ class StudioForm extends Component {
 }
 
 
-export default StudioForm
+export default ClassForm

@@ -13,7 +13,9 @@ import { connect } from 'react-redux';
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchStudios: () => {
-            dispatch(fetchStudios()).then(response => {
+            const jwtToken = localStorage.getItem('jwtToken')
+
+            dispatch(fetchStudios(jwtToken)).then(response => {
                 if (!response.payload.ok) {
                     throw Error(response.payload.statusText);
                 }
@@ -23,28 +25,28 @@ const mapDispatchToProps = (dispatch) => {
             }).catch((err) => dispatch(fetchStudiosFailure(err)));
         },
         createStudio: (values) => {
-            dispatch(createStudio(values)).then(response => {
-                console.log('response', response.payload.ok)
+            const jwtToken = localStorage.getItem('jwtToken')
+            console.log(jwtToken)
+            dispatch(createStudio(values, jwtToken)).then(response => {
                 if (!response.payload.ok) {
-
                     throw Error(response.payload.statusText);
                 }
                 return response.payload.json();
             }).then(result => {
-                console.log('payload', result)
                 // Note: Error's "data" is in result.payload.response.data (inside "response")
                 // success's "data" is in result.payload.data
-
+                //console.log(result)
                 dispatch(createStudioSuccess(result));
-                console.log('Studio created succesffully Sign up')
-            }).catch((err) => dispatch(createStudioFailure(err)));
+            }).catch((err) => {
+                dispatch(createStudioFailure(err))
+            });
+
         }
     }
 }
 
 
 function mapStateToProps(state, ownProps) {
-    console.log('MAPPING STATE TO PROPS', state.studios.studioList.studios)
     return {
         studios: state.studios.studioList.studios
     };

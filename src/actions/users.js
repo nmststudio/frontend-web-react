@@ -73,7 +73,6 @@ export function retrieveUserFromToken(tokenFromStorage) {
 }
 
 export function retrieveUserFromTokenSuccess(currentUser) {
-    console.log('RetrieveUserFromTokenSuccess')
     return {
         type: RETRIEVE_USER_FROM_TOKEN_SUCCESS,
         payload: currentUser
@@ -112,7 +111,6 @@ export function signUpUser(formValues) {
 }
 
 export function signUpUserSuccess(user) {
-    console.log('received action', user)
     return {
         type: SIGNUP_USER_SUCCESS,
         payload: user

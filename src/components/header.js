@@ -32,7 +32,6 @@ class Header extends Component {
     }
 
     renderSignInLinks(authenticatedUser) {
-        console.log('Rendering header', authenticatedUser)
         if (authenticatedUser) {
             return (
                 <ul className="nav  nav-pills navbar-right">

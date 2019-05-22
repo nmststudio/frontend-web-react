@@ -12,8 +12,13 @@ export const FETCH_STUDIOS_FAILURE = 'FETCH_STUDIOS_FAILURE';
 
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost' : '/api';
-export function fetchStudios() {
-    const request = fetch(ROOT_URL + '/studios')
+export function fetchStudios(tokenFromStorage) {
+    const request = fetch(ROOT_URL + '/studios', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${tokenFromStorage}`
+        }
+    })
     return {
         type: FETCH_STUDIOS,
         payload: request
@@ -44,7 +49,7 @@ export function createStudio(props, tokenFromStorage) {
             'Authorization': `Bearer ${tokenFromStorage}`
         }
     });
-
+    console.log('Create studio')
     return {
         type: CREATE_STUDIO,
         payload: request
@@ -52,13 +57,15 @@ export function createStudio(props, tokenFromStorage) {
 }
 
 export function createStudioSuccess(newStudio) {
+    console.log('Studio created successfully', newStudio)
     return {
         type: CREATE_STUDIO_SUCCESS,
         payload: newStudio
     };
 }
 
-export function createPostFailure(error) {
+export function createStudioFailure(error) {
+    console.log('Error creating studio', error)
     return {
         type: CREATE_STUDIO_FAILURE,
         payload: error
