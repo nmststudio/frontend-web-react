@@ -59,8 +59,7 @@ class ClassForm extends Component {
 
 
     validateAndCreateClass(values, dispatch) {
-        // this.props.createStudio(values)
-        console.log(values, this.state.startDate, this.state.endDate)
+        this.props.createClass(values)
     }
 
     componentWillMount() {
@@ -101,13 +100,22 @@ class ClassForm extends Component {
 
         <Form
            validate={validate}
-           initialValues={{ name:'Class '+Math.floor(Math.random()*1000) }}
+           initialValues={{ name:'Class '+Math.floor(Math.random()*1000), studioId: 57 }}
             onSubmit={this.validateAndCreateClass}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
               <form onSubmit = { event => {
               handleSubmit({})
               event.preventDefault();
                }} >
+               <div>
+                  <label>Studio Id</label>
+                  <Field
+                    name="studioId"
+                    component="input"
+                    type="text"
+                    placeholder="studioId"
+                  />
+                </div> 
                 <div>
                   <label>Class Name</label>
                   <Field
