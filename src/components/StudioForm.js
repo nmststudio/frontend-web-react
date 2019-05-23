@@ -95,7 +95,15 @@ class StudioForm extends Component {
           /><pre>
           <ul>
           {this.props.studios.map(function(d, idx){
-            return (<li key={idx}>{d.name}</li>)
+            return (
+                   
+              <li key={idx}>
+                <Link to={"/admin/studio/edit/"+d.id}>
+                  {d.name}
+                </Link>
+              </li>
+
+              )
          })}
          </ul></pre>
            </div>

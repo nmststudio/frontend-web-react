@@ -1,4 +1,4 @@
-import StudioForm from '../components/StudioForm.js';
+import StudioForm from '../../components/StudioForm.js';
 import {
     fetchStudios,
     fetchStudiosSuccess,
@@ -6,7 +6,7 @@ import {
     createStudio,
     createStudioSuccess,
     createStudioFailure
-} from '../actions/studios';
+} from '../../actions/studios';
 import { connect } from 'react-redux';
 
 

@@ -7,11 +7,18 @@ export const FETCH_STUDIOS = 'FETCH_STUDIOS';
 export const FETCH_STUDIOS_SUCCESS = 'FETCH_STUDIOS_SUCCESS';
 export const FETCH_STUDIOS_FAILURE = 'FETCH_STUDIOS_FAILURE';
 
+export const FETCH_STUDIO = 'FETCH_STUDIO';
+export const FETCH_STUDIO_SUCCESS = 'FETCH_STUDIO_SUCCESS';
+export const FETCH_STUDIO_FAILURE = 'FETCH_STUDIO_FAILURE';
+
+
 
 
 
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost' : '/api';
+// Fetch all Studios of a user
+
 export function fetchStudios(tokenFromStorage) {
     const request = fetch(ROOT_URL + '/studios', {
         headers: {
@@ -38,6 +45,32 @@ export function fetchStudiosFailure(error) {
         payload: error
     };
 }
+
+
+// Fetch specific studio
+
+export function fetchStudio(id) {
+    const request = fetch(ROOT_URL + '/studio/' + id)
+    return {
+        type: FETCH_STUDIO,
+        payload: request
+    };
+}
+
+export function fetchStudioSuccess(studios) {
+    return {
+        type: FETCH_STUDIO_SUCCESS,
+        payload: studios
+    };
+}
+
+export function fetchStudioFailure(error) {
+    return {
+        type: FETCH_STUDIO_FAILURE,
+        payload: error
+    };
+}
+
 
 export function createStudio(props, tokenFromStorage) {
 

@@ -48,7 +48,7 @@ class Header extends Component {
 
                   <li style={{paddingRight: '10px'}} role="presentation">      
                     
-                    <Link role="presentation" style={{color:'#996633',  fontSize: '17px'}} to="/studios/new">
+                    <Link role="presentation" style={{color:'#996633',  fontSize: '17px'}} to="/admin/studio/new">
                     Studio
                     </Link>
                    

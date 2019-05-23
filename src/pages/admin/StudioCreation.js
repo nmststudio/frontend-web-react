@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import StudioCreationContainer from '../containers/StudioCreationContainer.js';
-import HeaderContainer from '../containers/HeaderContainer.js';
-import ClassCreationContainer from '../containers/ClassCreationContainer.js';
+import StudioCreationContainer from '../../containers/admin/StudioCreationContainer.js';
+import HeaderContainer from '../../containers/HeaderContainer.js';
+import ClassCreationContainer from '../../containers/admin/ClassCreationContainer.js';
 
 class StudioCreation extends Component {
     render() {

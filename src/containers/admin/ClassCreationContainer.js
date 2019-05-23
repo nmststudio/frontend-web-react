@@ -1,9 +1,9 @@
-import ClassForm from '../components/ClassForm.js';
+import ClassForm from '../../components/ClassForm.js';
 import {
     createClass,
     createClassSuccess,
     createClassFailure
-} from '../actions/classes';
+} from '../../actions/classes';
 import { connect } from 'react-redux';
 
 

@@ -4,12 +4,16 @@ import {
     CREATE_STUDIO_FAILURE,
     FETCH_STUDIOS,
     FETCH_STUDIOS_SUCCESS,
-    FETCH_STUDIOS_FAILURE
+    FETCH_STUDIOS_FAILURE,
+    FETCH_STUDIO,
+    FETCH_STUDIO_SUCCESS,
+    FETCH_STUDIO_FAILURE
 } from '../actions/studios';
 
 
 const INITIAL_STATE = {
     studioList: { studios: [], error: null, loading: false },
+    currentStudio: { studio: {}, error: null, loading: false }
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -25,7 +29,7 @@ export default function(state = INITIAL_STATE, action) {
         case CREATE_STUDIO_FAILURE: // return error and make loading = false
             error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
             return { ...state, studioList: { studios: state.studioList, error: error, loading: false } };
-
+            // FETCH STUDIOS 
         case FETCH_STUDIOS:
             return { ...state, studioList: { studios: state.studioList.studios, loading: true } }
         case FETCH_STUDIOS_SUCCESS:
@@ -33,6 +37,14 @@ export default function(state = INITIAL_STATE, action) {
         case FETCH_STUDIOS_FAILURE:
             error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
             return { ...state, studioList: { studios: [], error: error, loading: false } }
+            // FETCH STUDIO
+        case FETCH_STUDIO:
+            return { ...state, currentStudio: { studio: {}, loading: true } }
+        case FETCH_STUDIO_SUCCESS:
+            return { ...state, currentStudio: { studio: action.payload, error: null, loading: false } }
+        case FETCH_STUDIO_FAILURE:
+            error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
+            return { ...state, currentStudio: { studio: {}, error: error, loading: false } }
 
         default:
             return state;
