@@ -3,14 +3,18 @@ import HeaderContainer from '../containers/HeaderContainer.js';
 import SignInFormContainer from '../containers/SignInFormContainer.js';
 
 class PostsNew extends Component {
-  render() {
-    return (
-      <div>
-        <HeaderContainer type="posts_new"/>
-        <SignInFormContainer />
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div> 
+                <HeaderContainer />
+                <section className="main">
+                    <div className="container" >
+                        <SignInFormContainer />
+                    </div>
+                </section>
+            </div>
+        );
+    }
 }
 
 

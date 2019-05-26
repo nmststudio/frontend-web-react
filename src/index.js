@@ -18,6 +18,7 @@ import ValidateEmail from './pages/ValidateEmail';
 // Admin Routes
 import StudioCreation from './pages/admin/StudioCreation';
 import StudioEdit from './pages/admin/StudioEdit';
+import Studio from './pages/admin/Studio';
 
 
 import Profile from './pages/Profile';
@@ -34,6 +35,7 @@ ReactDOM.render(
 			    // Admin Routes
 			    <Route path = "/admin/studio/new" component = { StudioCreation } /> 
 			    <Route path = "/admin/studio/edit/:id" component = { StudioEdit } /> 
+			    <Route path = "/admin/studio/:id" component = { Studio } /> 
 
 			    // Studio Site Routes
 			    <Route path = "posts/:id" component = { PostsShow } />

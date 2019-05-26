@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
                 localStorage.setItem('jwtToken', result.token);
                 //let other components know that everything is fine by updating the redux` state
                 console.log('Dispatch Sign up')
-                dispatch(signInUserSuccess(result.id));
+                dispatch(signInUserSuccess(result));
                 console.log('Dispatch Sign up')
             }).catch((err) => dispatch(signInUserFailure(err)));
         },

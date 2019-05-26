@@ -93,17 +93,17 @@ class StudioEdit extends Component {
     render() {
         console.log('STATE', this.state)
         const { handleSubmit, submitting, currentStudio } = this.props;
-        return (
-            <div className='container'>
-              <h2>{ this.state.currentStudio.name }</h2>
-              <br />
-              <input type="text" value={this.state.editedStudio.name || ''} onChange={this.handleChange} />
-              <br /><br /><button onClick={this.saveStudio}>Save</button>
-              <button type="button" onClick={this.resetStudio}> Reset </button>
-              <br />
-              {JSON.stringify(currentStudio, 0, 2)}
-           </div>
-        )
+        return (<div>
+            <h2>{ this.state.currentStudio.name }</h2> 
+            <br />
+            <input type="text" value={this.state.editedStudio.name || ''} onChange={this.handleChange} /> 
+            <br />
+            <br /> 
+            < button onClick = { this.saveStudio } > Save < /button>
+            < button type = "button" onClick = { this.resetStudio }> Reset </button> 
+            <br / > 
+            <pre>{ JSON.stringify(currentStudio, 0, 2) } </pre> 
+            </div>)
     }
 }
 

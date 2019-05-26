@@ -77,9 +77,8 @@ class ClassForm extends Component {
 
     render() {
         const { handleSubmit, submitting } = this.props;
-        return (
-            <div className='container'>
-             <DatePicker
+        return (<section>
+                    <DatePicker
                   onChange={this.handleStartDateChange}
                   selected={this.state.startDate}
                   showTimeSelect
@@ -87,18 +86,12 @@ class ClassForm extends Component {
                   maxTime={setHours(setMinutes(new Date(), 30), 20)}
                   dateFormat="MMMM d, yyyy h:mm aa"
                   timeFormat="HH:mm"
-                />
-                             <DatePicker
-                  onChange={this.handleEndDateChange}
-                  selected={this.state.endDate}
-                  showTimeSelect
-                  minTime={setHours(setMinutes(new Date(), 0), 17)}
-                  maxTime={setHours(setMinutes(new Date(), 30), 20)}
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                  timeFormat="HH:mm"
-                />
+                /> <
+                    DatePicker onChange = { this.handleEndDateChange } selected = { this.state.endDate } showTimeSelect minTime = { setHours(setMinutes(new Date(), 0), 17) } maxTime = { setHours(setMinutes(new Date(), 30), 20) } dateFormat = "MMMM d, yyyy h:mm aa"
+                    timeFormat = "HH:mm" /
+                    >
 
-        <Form
+                    <Form
            validate={validate}
            initialValues={{ name:'Class '+Math.floor(Math.random()*1000), studioId: 57 }}
             onSubmit={this.validateAndCreateClass}
@@ -147,7 +140,7 @@ class ClassForm extends Component {
           <ul>
            
          </ul></pre>
-           </div>
+           </section>
 
         )
     }

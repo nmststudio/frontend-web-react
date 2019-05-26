@@ -62,7 +62,7 @@ class SignInForm extends Component {
     render() {
         const { asyncValidating, handleSubmit, submitting } = this.props;
         return (
-            <div className="container">
+            <section>
                        <Form
            validate={validate}
            initialValues={{ username:'info@nicolabortignon.com',password:'1234' }}
@@ -105,7 +105,7 @@ class SignInForm extends Component {
               </form>
             )}
           />
-          </div>
+          </section>
 
         )
     }

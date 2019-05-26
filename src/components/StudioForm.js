@@ -55,7 +55,7 @@ class StudioForm extends Component {
     render() {
         const { handleSubmit, submitting } = this.props;
         return (
-            <div className='container'>
+            <section  >
         <Form
            validate={validate}
            initialValues={{ name:'Yoga '+Math.floor(Math.random()*1000) }}
@@ -66,7 +66,7 @@ class StudioForm extends Component {
               event.preventDefault();
                }} >
                 <div>
-                  <label>Username</label>
+                  <label>Studio Name</label>
                   <Field
                     name="name"
                     component="input"
@@ -106,7 +106,7 @@ class StudioForm extends Component {
               )
          })}
          </ul></pre>
-           </div>
+           </section>
 
         )
     }

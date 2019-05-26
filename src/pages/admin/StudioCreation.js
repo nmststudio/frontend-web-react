@@ -7,12 +7,18 @@ class StudioCreation extends Component {
     render() {
         console.log('page loaded studio')
         return (
-            <div> 
-                <HeaderContainer type="posts_new"/>
-                <StudioCreationContainer />
-                <hr />
-                <ClassCreationContainer />
+
+
+            <div className="home"> 
+                <HeaderContainer />
+                    <div id="main" className="container">
+                        <StudioCreationContainer />
+                        <hr />
+                        <ClassCreationContainer />
+                    </div>
             </div>
+
+
         );
     }
 }

@@ -57,7 +57,9 @@ class SignUpForm extends Component {
     render() {
         const { asyncValidating, handleSubmit, submitting, asyncValidate, validate, dispatch } = this.props;
         return (
-            <div className='container'>
+            <section id="notable-ai" className="benefit product-benefit-1">
+          <div className="row row-1 odd">
+          <div className="col-md order-md-last justify-content-start">
            <Form
            validate={validate}
            initialValues={{ username:Math.floor(Math.random()*10000000)+'@g.com',password:'test' }}
@@ -65,16 +67,16 @@ class SignUpForm extends Component {
             render={({ handleSubmit, form, submitting, pristine, values }) => (
               <form onSubmit = { handleSubmit }>
                 <div>
-                  <label>Username</label>
+                  <label>Email:</label>
                   <Field
                     name="username"
                     component="input"
                     type="text"
-                    placeholder="username"
+                    placeholder="email"
                   />
                 </div> 
                 <div>
-                  <label>Password</label>
+                  <label>Password:</label>
                   <Field
                     name="password"
                     component="input"
@@ -84,23 +86,26 @@ class SignUpForm extends Component {
                 </div>
                
                 <div className="buttons">
-                  <button type="submit" disabled={submitting}>
+
+              
+
+                  <button className="btn btn-primary" type="submit" disabled={submitting}>
                     Submit
                   </button>
-                  <button
-                    type="button"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </button>
+                
                 </div>
                 <pre>{JSON.stringify(values, 0, 2)}</pre>
-                <pre>{JSON.stringify(this.props.state, 0, 2)}</pre>
               </form>
             )}
-          />
-             </div>
+          /></div>
+          <div className="col-md order-md-first justify-content-start">
+            <div className="text-wrapper">
+              <h2>It takes only 1 minute</h2>
+              <p>Copy to Signup</p>
+            </div>
+          </div>
+        </div>
+      </section>
         )
     }
 }

@@ -16,12 +16,15 @@ class StudioEdit extends Component {
 
     render() {
 
-        console.log('props', this.props.match.params.id)
-        return (
-            <div> 
-                <HeaderContainer type="posts_new"/>
-                <StudioEditContainer id={this.props.match.params.id} />
-            </div>
+            console.log('props', this.props.match.params.id)
+            return (<div>
+            <HeaderContainer /> <
+            section className = "main" >
+            <div className="container" >
+                        <StudioEditContainer id={this.props.match.params.id} />
+                    </div> <
+            /section> <
+            /div>
         );
     }
 }
