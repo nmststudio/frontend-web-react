@@ -30,34 +30,77 @@ class StudioEdit extends Component {
     constructor(props) {
         super(props);
         console.log(props);
-        // This binding is necessary to make `this` work in the callback
-        this.validateAndCreateStudio = this.validateAndCreateStudio.bind(this);
+
+
+        // Initialize the main object and the edited object
+
+        var studio = { name: '' }
+        this.state = { currentStudio: studio, editedStudio: studio };
+
+        // Bind all the form controllers 
+
+        this.resetStudio = this.resetStudio.bind(this);
+        this.saveStudio = this.saveStudio.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
+        this.saveStudio = this.saveStudio.bind(this);
         this.props.fetchStudio(this.props.id);
+
+
+
+
     }
 
 
-    validateAndCreateStudio(values, dispatch) {
-        this.props.createStudio(values)
-    }
 
     componentWillMount() {
-        //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
-        //always reset that global state back to null when you REMOUNT
-        //this.props.resetMe();
+
     }
 
     componentWillReceiveProps(nextProps) {
-        // if (nextProps.newPost.post && !nextProps.newPost.error) {
-        //     this.context.router.push('/');
-        //  }
+        console.log(nextProps)
+        this.setState({
+            ...this.state,
+            currentStudio: nextProps.currentStudio,
+            editedStudio: nextProps.currentStudio
+        });
+    }
+
+    handleChange(event) {
+        console.log('CHANGE ')
+        this.setState({
+            ...this.state,
+            editedStudio: {
+                ...this.state.editedStudio,
+                name: event.target.value
+            }
+        });
+    }
+
+    resetStudio(event) {
+
+        this.setState({
+            ...this.state,
+            editedStudio: this.state.currentStudio
+        })
+    }
+    saveStudio(event) {
+        console.log('handler for saving Studio');
+        this.props.editStudio(this.state.editedStudio)
     }
 
 
     render() {
+        console.log('STATE', this.state)
         const { handleSubmit, submitting, currentStudio } = this.props;
         return (
             <div className='container'>
-              <h2>{currentStudio.name}</h2>
+              <h2>{ this.state.currentStudio.name }</h2>
+              <br />
+              <input type="text" value={this.state.editedStudio.name || ''} onChange={this.handleChange} />
+              <br /><br /><button onClick={this.saveStudio}>Save</button>
+              <button type="button" onClick={this.resetStudio}> Reset </button>
+              <br />
               {JSON.stringify(currentStudio, 0, 2)}
            </div>
         )

@@ -7,7 +7,10 @@ import {
     FETCH_STUDIOS_FAILURE,
     FETCH_STUDIO,
     FETCH_STUDIO_SUCCESS,
-    FETCH_STUDIO_FAILURE
+    FETCH_STUDIO_FAILURE,
+    EDIT_STUDIO,
+    EDIT_STUDIO_SUCCESS,
+    EDIT_STUDIO_FAILURE
 } from '../actions/studios';
 
 
@@ -45,7 +48,15 @@ export default function(state = INITIAL_STATE, action) {
         case FETCH_STUDIO_FAILURE:
             error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
             return { ...state, currentStudio: { studio: {}, error: error, loading: false } }
-
+            // FETCH STUDIO
+        case EDIT_STUDIO:
+            return { ...state, currentStudio: { studio: state.currentStudio.studio, error: null, loading: true } }
+        case EDIT_STUDIO_SUCCESS:
+            console.log('EDIT STUDIO REDUCER', action.payload)
+            return { ...state, currentStudio: { studio: action.payload, error: null, loading: false } }
+        case EDIT_STUDIO_FAILURE:
+            error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
+            return { ...state, currentStudio: { studio: {}, error: error, loading: false } }
         default:
             return state;
     }

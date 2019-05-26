@@ -8,7 +8,10 @@ import {
     fetchStudioFailure,
     createStudio,
     createStudioSuccess,
-    createStudioFailure
+    createStudioFailure,
+    editStudio,
+    editStudioSuccess,
+    editStudioFailure
 } from '../../actions/studios';
 import { connect } from 'react-redux';
 
@@ -26,10 +29,10 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(fetchStudioSuccess(result));
             }).catch((err) => dispatch(fetchStudioFailure(err)));
         },
-        createStudio: (values) => {
+        editStudio: (studio) => {
             const jwtToken = localStorage.getItem('jwtToken')
             console.log(jwtToken)
-            dispatch(createStudio(values, jwtToken)).then(response => {
+            dispatch(editStudio(studio, jwtToken)).then(response => {
                 if (!response.payload.ok) {
                     throw Error(response.payload.statusText);
                 }
@@ -38,11 +41,10 @@ const mapDispatchToProps = (dispatch) => {
                 // Note: Error's "data" is in result.payload.response.data (inside "response")
                 // success's "data" is in result.payload.data
                 //console.log(result)
-                dispatch(createStudioSuccess(result));
+                dispatch(editStudioSuccess(result));
             }).catch((err) => {
-                dispatch(createStudioFailure(err))
+                dispatch(editStudioFailure(err))
             });
-
         }
     }
 }

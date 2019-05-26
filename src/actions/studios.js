@@ -11,6 +11,11 @@ export const FETCH_STUDIO = 'FETCH_STUDIO';
 export const FETCH_STUDIO_SUCCESS = 'FETCH_STUDIO_SUCCESS';
 export const FETCH_STUDIO_FAILURE = 'FETCH_STUDIO_FAILURE';
 
+export const EDIT_STUDIO = 'EDIT_STUDIO';
+export const EDIT_STUDIO_SUCCESS = 'EDIT_STUDIO_SUCCESS';
+export const EDIT_STUDIO_FAILURE = 'EDIT_STUDIO_FAILURE';
+
+
 
 
 
@@ -71,6 +76,7 @@ export function fetchStudioFailure(error) {
     };
 }
 
+// POST NEW STUDIO
 
 export function createStudio(props, tokenFromStorage) {
 
@@ -101,6 +107,42 @@ export function createStudioFailure(error) {
     console.log('Error creating studio', error)
     return {
         type: CREATE_STUDIO_FAILURE,
+        payload: error
+    };
+}
+
+
+// PUT EXISTING STUDIO 
+
+export function editStudio(newStudio, tokenFromStorage) {
+
+    const request = fetch(`${ROOT_URL}/studio`, {
+        method: 'PUT',
+        body: JSON.stringify(newStudio),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${tokenFromStorage}`
+        }
+    });
+    console.log('Create studio')
+    return {
+        type: EDIT_STUDIO,
+        payload: request
+    };
+}
+
+export function editStudioSuccess(newStudio) {
+    console.log('Studio created successfully', newStudio)
+    return {
+        type: EDIT_STUDIO_SUCCESS,
+        payload: newStudio
+    };
+}
+
+export function editStudioFailure(error) {
+    console.log('Error creating studio', error)
+    return {
+        type: EDIT_STUDIO_FAILURE,
         payload: error
     };
 }
