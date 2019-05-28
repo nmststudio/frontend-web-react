@@ -11,6 +11,9 @@ import renderTextArea from './renderTextArea';
 import { validatePostFields, validatePostFieldsSuccess, validatePostFieldsFailure } from '../actions/posts';
 import { createPost, createPostSuccess, createPostFailure, resetNewPost } from '../actions/posts';
 
+
+
+
 //Client side validation
 function validate(values) {
     const errors = {};

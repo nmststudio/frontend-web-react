@@ -98,7 +98,7 @@ class StudioForm extends Component {
             return (
                    
               <li key={idx}>
-                <Link to={"/admin/studio/edit/"+d.id}>
+                <Link to={"/admin/studio/"+d.id}>
                   {d.name}
                 </Link>
               </li>

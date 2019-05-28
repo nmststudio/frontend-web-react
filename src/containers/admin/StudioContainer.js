@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchStudio: (id) => {
-            console.log('fatching Studio')
             dispatch(fetchStudio(id)).then(response => {
                 if (!response.payload.ok) {
                     throw Error(response.payload.statusText);

@@ -6,6 +6,12 @@ import {
 import { Link } from 'react-router-dom';
 import { Form, Field } from 'react-final-form'
 
+import Calendar from './calendar/Calendar.js';
+
+
+import moment from 'moment'
+
+
 //Client side validation
 function validate(values) {
     const errors = {};
@@ -34,10 +40,6 @@ class Studio extends Component {
 
         // Bind all the form controllers 
         this.props.fetchStudio(this.props.id);
-
-
-
-
     }
 
 
@@ -59,11 +61,16 @@ class Studio extends Component {
         console.log('STATE', this.state)
         const { handleSubmit, submitting, currentStudio } = this.props;
         return (<div>
-            <h2>{ this.state.currentStudio.name }</h2> 
+            <h1>{ this.state.currentStudio.name }</h1> 
             <br />
             <Link to={"/admin/studio/edit/"+this.state.currentStudio.id}>
-                  Edit { this.state.currentStudio.name }
-                </Link>
+                Edit { this.state.currentStudio.name }
+            </Link>
+            <hr />
+            <h2>Classes</h2>
+            <div style={{height: 600+'px'}}><Calendar /></div>
+            <h2>Trainers</h2>
+          
             </div>)
     }
 }
