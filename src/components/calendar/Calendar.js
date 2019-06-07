@@ -11,6 +11,10 @@ const DragAndDropCalendar = withDragAndDrop(BigCalendar)
 const localizer = BigCalendar.momentLocalizer(moment)
 
 
+// TODO
+// Events are pulled from reducer
+// 
+
 const propTypes = {}
 const resourceMap = [
     { resourceId: 1, resourceTitle: 'Board room' },
@@ -29,11 +33,14 @@ class Calendar extends React.Component {
 
     }
 
-    moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot }) {
+    moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot, resourceId }) {
+
         const { events } = this.state
 
         const idx = events.indexOf(event)
         let allDay = event.allDay
+
+        console.log(event);
 
         if (!event.allDay && droppedOnAllDaySlot) {
             allDay = true
@@ -41,7 +48,7 @@ class Calendar extends React.Component {
             allDay = false
         }
 
-        const updatedEvent = { ...event, start, end, allDay }
+        const updatedEvent = { ...event, start, end, allDay, resourceId }
 
         const nextEvents = [...events]
         nextEvents.splice(idx, 1, updatedEvent)
@@ -69,7 +76,7 @@ class Calendar extends React.Component {
     }
 
     newEvent(event) {
-        console.log('EVENT')
+        console.log('EventNT')
         let idList = this.state.events.map(a => a.id)
         let newId = Math.max(...idList) + 1
         let hour = {
