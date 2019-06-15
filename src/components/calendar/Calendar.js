@@ -29,6 +29,7 @@ class Calendar extends React.Component {
         this.newEvent = this.newEvent.bind(this)
         this.onNavigate = this.onNavigate.bind(this)
         this.onDoubleClick = this.onDoubleClick.bind(this)
+        this.saveEdit = this.saveEdit.bind(this)
         this.props.fetchClasses(this.props.studioId)
 
     }
@@ -57,6 +58,20 @@ class Calendar extends React.Component {
         }
     }
 
+    saveEdit(event) {
+        console.log('Save EDIT ', event)
+
+        const nextEvents = this.state.events.map(existingEvent => {
+            return existingEvent.id == event.id ? { ...event, editing: false } :
+                existingEvent
+        })
+
+
+        this.props.editClass(event);
+        this.setState({
+            events: nextEvents,
+        })
+    }
 
     moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot, resourceId }) {
         const { events } = this.state
@@ -69,8 +84,8 @@ class Calendar extends React.Component {
         } else if (event.allDay && !droppedOnAllDaySlot) {
             allDay = false
         }
-
-        const updatedEvent = { ...event, start, end, allDay, resourceId }
+        console.log('MOVE EVENT', this.state.events[idx])
+        const updatedEvent = { ...this.state.events[idx], editing: false, start, end, allDay, resourceId }
 
         const nextEvents = [...events]
         nextEvents.splice(idx, 1, updatedEvent)
@@ -85,10 +100,10 @@ class Calendar extends React.Component {
 
     resizeEvent = ({ event, start, end, isAllDay, resourceId }) => {
         const { events } = this.state
+        const idx = events.indexOf(event)
+        const newEvent = { ...this.state.events[idx], editing: false, start, end, isAllDay, resourceId }
 
-        const newEvent = { ...event, start, end, isAllDay, resourceId }
-
-        const nextEvents = events.map(existingEvent => {
+        const nextEvents = this.state.events.map(existingEvent => {
             return existingEvent.id == event.id ? { ...existingEvent, start, end } :
                 existingEvent
         })
@@ -147,19 +162,27 @@ class Calendar extends React.Component {
     };
 
     onDoubleClick = (object) => {
-        const nextEvents = this.state.events.map(existingEvent => {
-            return existingEvent.id == object.id ? { ...existingEvent, editing: true } :
-                existingEvent
-        })
 
-        console.log(nextEvents)
+        // EDITING AN EVENT IN LINE. 
+        /* 
+          if (object.editing == true) return; // We don't want to double click on the field and refresh the editing
+          const nextEvents = this.state.events.map(existingEvent => {
+              return existingEvent.id == object.id ? { ...existingEvent, saveEdit: this.saveEdit, editing: existingEvent.editing ? false : true } :
+                  existingEvent
+          })
+          this.setState({
+              events: nextEvents,
+          })
+          */
+    }
 
-        this.setState({
-            events: nextEvents,
-        })
+    onClick = (object) => {
+        if (object.editing == true) return;
+    }
 
-
-        console.log(object);
+    onDragStart = (event) => {
+        console.log('DRAFG START')
+        return;
     }
 
     eventStyleGetter = (event, start, end, isSelected) => {
@@ -187,8 +210,10 @@ class Calendar extends React.Component {
               components={{event: Card}}
               localizer={localizer}
               events={this.state.events}
+              draggableAccessor={this.draggableAccessor}
               onEventDrop={this.moveEvent}
               onDoubleClickEvent={this.onDoubleClick}
+              onClickEvent={this.onClick}
               resizable
               onNavigate={this.onNavigate}
               resources={resourceMap}
@@ -197,9 +222,10 @@ class Calendar extends React.Component {
               eventPropGetter={(this.eventStyleGetter)}
               onEventResize={this.resizeEvent}
               onSelectSlot={this.newEvent}
-              onDragStart={console.log}
+              onDragStart={this.onDragStart}
               defaultView={BigCalendar.Views.DAY}
               defaultDate={new Date()}
+
             />)
     }
 }

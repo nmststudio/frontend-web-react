@@ -714,3 +714,13 @@ button.rbc-input::-moz-focus-inner {
     background-color: #74ad31;
     pointer-events: none;
 }
+
+.rbc-edit-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 15;
+    width: 400px;
+    height: 400px;
+    background-color: #fc0;
+}
