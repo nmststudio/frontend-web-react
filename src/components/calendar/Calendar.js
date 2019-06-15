@@ -26,7 +26,7 @@ const resourceMap = [
 class Calendar extends React.Component {
     constructor(...args) {
         super(...args)
-
+        console.log('CALENDAR PROPS ', this.props)
         this.state = { events }
         this.moveEvent = this.moveEvent.bind(this)
         this.newEvent = this.newEvent.bind(this)
@@ -39,8 +39,6 @@ class Calendar extends React.Component {
 
         const idx = events.indexOf(event)
         let allDay = event.allDay
-
-        console.log(event);
 
         if (!event.allDay && droppedOnAllDaySlot) {
             allDay = true
@@ -60,7 +58,7 @@ class Calendar extends React.Component {
         // alert(`${event.title} was dropped onto ${updatedEvent.start}`)
     }
 
-    resizeEvent = ({ event, start, end }) => {
+    resizeEvent = ({ event, start, end, isAllDay, resourceId }) => {
         const { events } = this.state
 
         const nextEvents = events.map(existingEvent => {
@@ -76,19 +74,22 @@ class Calendar extends React.Component {
     }
 
     newEvent(event) {
-        console.log('EventNT')
+        console.log(event)
         let idList = this.state.events.map(a => a.id)
         let newId = Math.max(...idList) + 1
         let hour = {
             id: newId,
-            title: 'New Event',
+            title: 'New Class',
             allDay: event.slots.length == 1,
             start: event.start,
             end: event.end,
+            resourceId: event.resourceId
         }
         this.setState({
             events: this.state.events.concat([hour]),
         })
+        console.log(this.props.studioId)
+        this.props.createClass(hour, this.props.studioId)
     }
 
 
@@ -109,28 +110,24 @@ class Calendar extends React.Component {
 
 
     render() {
-
-
-
-
         return (
             <DragAndDropCalendar
-        selectable
-        localizer={localizer}
-        events={this.state.events}
-        onEventDrop={this.moveEvent}
-        resizable
+              selectable
+              localizer={localizer}
+              events={this.state.events}
+              onEventDrop={this.moveEvent}
+              resizable
 
-        resources={resourceMap}
-        resourceIdAccessor="resourceId"
-        resourceTitleAccessor="resourceTitle"
-        
-        onEventResize={this.resizeEvent}
-        onSelectSlot={this.newEvent}
-        onDragStart={console.log}
-        defaultView={BigCalendar.Views.MONTH}
-        defaultDate={new Date(2018, 0, 29)}
-      />)
+              resources={resourceMap}
+              resourceIdAccessor="resourceId"
+              resourceTitleAccessor="resourceTitle"
+              
+              onEventResize={this.resizeEvent}
+              onSelectSlot={this.newEvent}
+              onDragStart={console.log}
+              defaultView={BigCalendar.Views.MONTH}
+              defaultDate={new Date(2018, 0, 29)}
+            />)
     }
 }
 

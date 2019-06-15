@@ -6,7 +6,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Form, Field } from 'react-final-form'
 
-import Calendar from './calendar/Calendar.js';
+import CalendarEditorContainer from './../containers/admin/CalendarEditorContainer.js';
 
 
 import moment from 'moment'
@@ -58,7 +58,7 @@ class Studio extends Component {
 
 
     render() {
-        console.log('STATE', this.state)
+        console.log('STUDIO ID ', this.state.currentStudio.id)
         const { handleSubmit, submitting, currentStudio } = this.props;
         return (<div>
             <h1>{ this.state.currentStudio.name }</h1> 
@@ -68,7 +68,9 @@ class Studio extends Component {
             </Link>
             <hr />
             <h2>Classes</h2>
-            <div style={{height: 600+'px'}}><Calendar /></div>
+            <div style = { { height: 600 + 'px' } }>
+                <CalendarEditorContainer studioId={this.state.currentStudio.id} />
+            </div>
             <h2>Trainers</h2>
           
             </div>)
