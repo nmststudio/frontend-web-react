@@ -114,17 +114,16 @@ export function createStudioFailure(error) {
 
 // PUT EXISTING STUDIO 
 
-export function editStudio(newStudio, tokenFromStorage) {
+export function editStudio(studio, tokenFromStorage) {
 
-    const request = fetch(`${ROOT_URL}/studio`, {
+    const request = fetch(`${ROOT_URL}/studio/${studio.id}`, {
         method: 'PUT',
-        body: JSON.stringify(newStudio),
+        body: JSON.stringify(studio),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${tokenFromStorage}`
         }
     });
-    console.log('Create studio')
     return {
         type: EDIT_STUDIO,
         payload: request
@@ -132,7 +131,7 @@ export function editStudio(newStudio, tokenFromStorage) {
 }
 
 export function editStudioSuccess(newStudio) {
-    console.log('Studio created successfully', newStudio)
+
     return {
         type: EDIT_STUDIO_SUCCESS,
         payload: newStudio

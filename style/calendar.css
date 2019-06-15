@@ -46,6 +46,11 @@ button.rbc-input::-moz-focus-inner {
     bottom: 0;
 }
 
+.rbc-event-content {
+    font-size: .8em;
+    font-weight: 600;
+}
+
 .rbc-ellipsis,
 .rbc-event-label,
 .rbc-row-segment .rbc-event-content,
@@ -79,16 +84,16 @@ button.rbc-input::-moz-focus-inner {
     font-weight: bold;
     font-size: 90%;
     min-height: 0;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #efefef;
 }
 
 .rbc-header+.rbc-header {
-    border-left: 1px solid #DDD;
+    border-left: 1px solid #efefef;
 }
 
 .rbc-rtl .rbc-header+.rbc-header {
     border-left-width: 0;
-    border-right: 1px solid #DDD;
+    border-right: 1px solid #efefef;
 }
 
 .rbc-header>a,
@@ -106,7 +111,7 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-today {
-    background-color: #eaf6ff;
+    background-color: #fff;
 }
 
 .rbc-toolbar {
@@ -132,7 +137,7 @@ button.rbc-input::-moz-focus-inner {
     vertical-align: middle;
     background: none;
     background-image: none;
-    border: 1px solid #ccc;
+    border: 1px solid #eee;
     padding: .375rem 1rem;
     border-radius: 4px;
     line-height: normal;
@@ -144,7 +149,7 @@ button.rbc-input::-moz-focus-inner {
     background-image: none;
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     background-color: #e6e6e6;
-    border-color: #adadad;
+    border-color: #ddd;
 }
 
 .rbc-toolbar button:active:hover,
@@ -224,6 +229,13 @@ button.rbc-input::-moz-focus-inner {
     cursor: pointer;
     width: 100%;
     text-align: left;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    border-radius: 5px !important;
+}
+
+.rbc-event-label {
+    display: none !important;
 }
 
 .rbc-slot-selecting .rbc-event {

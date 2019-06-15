@@ -1,9 +1,10 @@
 import React from 'react'
-import events from './eventsExemple'
 import ExampleControlSlot from './ExampleControlSlot'
 import CalendarComponent from 'react-big-calendar'
 import moment from 'moment'
 import BigCalendar from 'react-big-calendar'
+
+import Card from './Card';
 
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
@@ -17,24 +18,47 @@ const localizer = BigCalendar.momentLocalizer(moment)
 
 const propTypes = {}
 const resourceMap = [
-    { resourceId: 1, resourceTitle: 'Board room' },
-    { resourceId: 2, resourceTitle: 'Training room' },
-    { resourceId: 3, resourceTitle: 'Meeting room 1' },
-    { resourceId: 4, resourceTitle: 'Meeting room 2' },
+    { resourceId: 1, resourceTitle: 'ClassRoom' },
 ]
 
 class Calendar extends React.Component {
     constructor(...args) {
         super(...args)
-        console.log('CALENDAR PROPS ', this.props)
-        this.state = { events }
+        this.state = { ...this.state, events: [], areEventsOutOfDate: true }
         this.moveEvent = this.moveEvent.bind(this)
         this.newEvent = this.newEvent.bind(this)
+        this.onNavigate = this.onNavigate.bind(this)
+        this.onDoubleClick = this.onDoubleClick.bind(this)
+        this.props.fetchClasses(this.props.studioId)
 
     }
 
-    moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot, resourceId }) {
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log('UPDATE PROPS IN CALENDAR', this.props)
+        let idx = 0;
+        if (this.state.areEventsOutOfDate && this.props.classes.length > 0) {
+            let events = this.props.classes.map(obj => {
+                return {
+                    id: ++idx,
+                    remoteId: obj.id,
+                    title: obj.name,
+                    start: moment(obj.startTime).toDate(),
+                    end: moment(obj.endTime).toDate(),
+                    resourceId: 1,
+                }
+            })
+            console.log('UPDATE EVENTS ', events.length)
+            this.setState({
+                ...this.state,
+                events: events,
+                areEventsOutOfDate: false,
+            })
+        }
+    }
+
+
+    moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot, resourceId }) {
         const { events } = this.state
 
         const idx = events.indexOf(event)
@@ -54,6 +78,7 @@ class Calendar extends React.Component {
         this.setState({
             events: nextEvents,
         })
+        this.props.editClass(updatedEvent);
 
         // alert(`${event.title} was dropped onto ${updatedEvent.start}`)
     }
@@ -61,11 +86,15 @@ class Calendar extends React.Component {
     resizeEvent = ({ event, start, end, isAllDay, resourceId }) => {
         const { events } = this.state
 
+        const newEvent = { ...event, start, end, isAllDay, resourceId }
+
         const nextEvents = events.map(existingEvent => {
             return existingEvent.id == event.id ? { ...existingEvent, start, end } :
                 existingEvent
         })
 
+
+        this.props.editClass(newEvent);
         this.setState({
             events: nextEvents,
         })
@@ -74,7 +103,6 @@ class Calendar extends React.Component {
     }
 
     newEvent(event) {
-        console.log(event)
         let idList = this.state.events.map(a => a.id)
         let newId = Math.max(...idList) + 1
         let hour = {
@@ -108,25 +136,70 @@ class Calendar extends React.Component {
             })
     }
 
+    onNavigate = (date, view, action) => {
+        console.log(date, view, action)
+        /*
+        if (view === "agenda" && action === "NEXT") {
+          date = moment(date).add(1, "day").toDate();
+        }
+
+        this.setState({ start: date }); */
+    };
+
+    onDoubleClick = (object) => {
+        const nextEvents = this.state.events.map(existingEvent => {
+            return existingEvent.id == object.id ? { ...existingEvent, editing: true } :
+                existingEvent
+        })
+
+        console.log(nextEvents)
+
+        this.setState({
+            events: nextEvents,
+        })
+
+
+        console.log(object);
+    }
+
+    eventStyleGetter = (event, start, end, isSelected) => {
+        /* console.log(event);
+         var backgroundColor = '#fab16c';
+         var style = {
+             backgroundColor: backgroundColor,
+             borderRadius: '0px',
+             opacity: 0.8,
+             color: 'black',
+             border: '0px',
+             display: 'block'
+         };
+         return {
+             style: style
+         }
+         */
+
+    }
 
     render() {
         return (
             <DragAndDropCalendar
               selectable
+              components={{event: Card}}
               localizer={localizer}
               events={this.state.events}
               onEventDrop={this.moveEvent}
+              onDoubleClickEvent={this.onDoubleClick}
               resizable
-
+              onNavigate={this.onNavigate}
               resources={resourceMap}
               resourceIdAccessor="resourceId"
               resourceTitleAccessor="resourceTitle"
-              
+              eventPropGetter={(this.eventStyleGetter)}
               onEventResize={this.resizeEvent}
               onSelectSlot={this.newEvent}
               onDragStart={console.log}
-              defaultView={BigCalendar.Views.MONTH}
-              defaultDate={new Date(2018, 0, 29)}
+              defaultView={BigCalendar.Views.DAY}
+              defaultDate={new Date()}
             />)
     }
 }

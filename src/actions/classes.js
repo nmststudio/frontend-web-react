@@ -7,22 +7,22 @@ export const CREATE_CLASS = 'CREATE_CLASS';
 export const CREATE_CLASS_SUCCESS = 'CREATE_CLASS_SUCCESS';
 export const CREATE_CLASS_FAILURE = 'CREATE_CLASS_FAILURE';
 
+export const EDIT_CLASS = 'EDIT_CLASS';
+export const EDIT_CLASS_SUCCESS = 'EDIT_CLASS_SUCCESS';
+export const EDIT_CLASS_FAILURE = 'EDIT_CLASS_FAILURE';
 
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost' : '/api';
 
 
-
 export function fetchClasses(studioId, jwtToken) {
     const request = fetch(`${ROOT_URL}/studio/${studioId}/class`, {
         method: 'GET',
-        body: JSON.stringify(props),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`
         }
     });
-    console.log('Fetching Classes')
     return {
         type: FETCH_CLASSES,
         payload: request
@@ -37,7 +37,6 @@ export function fetchClassesSuccess(classes) {
 }
 
 export function fetchClassesFailure(error) {
-    console.log('Error creating Class', error)
     return {
         type: FETCH_CLASSES_FAILURE,
         payload: error
@@ -45,8 +44,36 @@ export function fetchClassesFailure(error) {
 }
 
 
+export function editClass(editedClass, tokenFromStorage) {
+    const request = fetch(`${ROOT_URL}/class/${editedClass.remoteId}`, {
+        method: 'PUT',
+        body: JSON.stringify(editedClass),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${tokenFromStorage}`
+        }
+    });
+    return {
+        type: EDIT_CLASS,
+        payload: request
+    };
+}
+export function editClassSuccess(newClass) {
+    return {
+        type: EDIT_CLASS_SUCCESS,
+        payload: newClass
+    };
+}
+
+export function editClassFailure(error) {
+    return {
+        type: EDIT_CLASS_FAILURE,
+        payload: error
+    };
+}
+
+
 export function createClass(event, studioId, tokenFromStorage) {
-    console.log('ACTION -- CREATE CLASS --------', studioId)
     const request = fetch(`${ROOT_URL}/class`, {
         method: 'POST',
         body: JSON.stringify({
@@ -65,7 +92,6 @@ export function createClass(event, studioId, tokenFromStorage) {
 }
 
 export function createClassSuccess(newClass) {
-    console.log('Class created successfully', newClass)
     return {
         type: CREATE_CLASS_SUCCESS,
         payload: newClass

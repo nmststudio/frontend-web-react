@@ -51,6 +51,7 @@ const mapDispatchToProps = (dispatch) => {
 
 
 function mapStateToProps(state, ownProps) {
+    console.log('STUDIO CONTAINER PROPS', ownProps);
     return {
         studios: state.studios.studioList.studios,
         currentStudio: state.studios.currentStudio.studio

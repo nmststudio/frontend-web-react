@@ -2,8 +2,10 @@ import {
     CREATE_CLASS,
     CREATE_CLASS_SUCCESS,
     CREATE_CLASS_FAILURE,
+    FETCH_CLASSES,
+    FETCH_CLASSES_SUCCESS,
+    FETCH_CLASSES_FAILURE
 } from '../actions/classes';
-
 
 const INITIAL_STATE = {
     classList: [],
@@ -24,6 +26,18 @@ export default function(state = INITIAL_STATE, action) {
                 loading: false
             };
         case CREATE_CLASS_FAILURE: // return error and make loading = false
+            error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
+            return { ...state, error: error, loading: false };
+            // FETCHING CLASSES
+        case FETCH_CLASSES: // start fetching posts and set loading = true
+            return { ...state, error: null, loading: true };
+        case FETCH_CLASSES_SUCCESS: // return list of posts and make loading = false
+            return { ...state,
+                classList: action.payload,
+                error: null,
+                loading: false
+            };
+        case FETCH_CLASSES_FAILURE: // return error and make loading = false
             error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
             return { ...state, error: error, loading: false };
 

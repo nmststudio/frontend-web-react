@@ -4,6 +4,12 @@ import {
     fetchStudioSuccess,
     fetchStudioFailure,
 } from '../../actions/studios';
+import {
+    createClass,
+    createClassSuccess,
+    createClassFailure
+} from '../../actions/classes';
+
 import { connect } from 'react-redux';
 
 
@@ -24,9 +30,15 @@ const mapDispatchToProps = (dispatch) => {
 
 
 function mapStateToProps(state, ownProps) {
+    let currentStudio = null
+    if (state.studios.currentStudio && state.studios.currentStudio.studio) {
+        currentStudio = state.studios.currentStudio.studio;
+    }
     return {
-        currentStudio: state.studios.currentStudio.studio
+        id: ownProps.id,
+        currentStudio: currentStudio
     };
-}
 
+
+}
 export default connect(mapStateToProps, mapDispatchToProps)(Studio);

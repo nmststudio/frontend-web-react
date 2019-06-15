@@ -30,9 +30,6 @@ class Studio extends Component {
     };
     constructor(props) {
         super(props);
-        console.log(props);
-
-
         // Initialize the main object and the edited object
 
         var studio = { name: '' }
@@ -44,12 +41,9 @@ class Studio extends Component {
 
 
 
-    componentWillMount() {
 
-    }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
         this.setState({
             ...this.state,
             currentStudio: nextProps.currentStudio,
@@ -58,18 +52,18 @@ class Studio extends Component {
 
 
     render() {
-        console.log('STUDIO ID ', this.state.currentStudio.id)
         const { handleSubmit, submitting, currentStudio } = this.props;
+        if (!currentStudio) { return (<div></div>); }
         return (<div>
-            <h1>{ this.state.currentStudio.name }</h1> 
+            <h1>{ this.props.currentStudio.name }</h1> 
             <br />
-            <Link to={"/admin/studio/edit/"+this.state.currentStudio.id}>
+            <Link to={"/admin/studio/edit/"+this.props.id}>
                 Edit { this.state.currentStudio.name }
             </Link>
             <hr />
             <h2>Classes</h2>
             <div style = { { height: 600 + 'px' } }>
-                <CalendarEditorContainer studioId={this.state.currentStudio.id} />
+                <CalendarEditorContainer studioId={this.props.id} />
             </div>
             <h2>Trainers</h2>
           
