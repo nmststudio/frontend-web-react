@@ -28,6 +28,7 @@ class Card extends React.Component {
 
     handleSave(event) {
         console.log(this.props)
+
         // ACCEPTING AN OBJECT IN THE SHAPE OF { event, start, end, isAllDay: droppedOnAllDaySlot, resourceId }
         this.props.event.saveEdit(this.state.edited)
     }
@@ -48,6 +49,7 @@ class Card extends React.Component {
 	        	<span> {this.props.event.title}</span>
 	        	
 	        	<br /><br />
+	        	{JSON.stringify(this.props.event)}
 	    	</div>
         );
     }
