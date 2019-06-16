@@ -724,3 +724,17 @@ button.rbc-input::-moz-focus-inner {
     height: 400px;
     background-color: #fc0;
 }
+
+.rbc-edit-layer {
+    position: absolute;
+    background-color: #20c997;
+    margin: 0px;
+    padding: 20px;
+    z-index: 15;
+    height: 200px;
+    opacity: 0.95;
+}
+
+.rbc-edit-input {
+    background-color: #20c997;
+}

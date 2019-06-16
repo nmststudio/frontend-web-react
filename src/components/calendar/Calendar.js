@@ -3,7 +3,7 @@ import ExampleControlSlot from './ExampleControlSlot'
 import CalendarComponent from 'react-big-calendar'
 import moment from 'moment'
 import BigCalendar from 'react-big-calendar'
-
+import CardEditor from './CardEditor';
 import Card from './Card';
 
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
@@ -69,6 +69,7 @@ class Calendar extends React.Component {
 
         this.props.editClass(event);
         this.setState({
+            currentEditing: null,
             events: nextEvents,
         })
     }
@@ -174,6 +175,14 @@ class Calendar extends React.Component {
               events: nextEvents,
           })
           */
+        const { events } = this.state
+        const idx = events.indexOf(object)
+        console.log(events[idx])
+
+        this.setState({
+            ...this.state,
+            currentEditing: events[idx]
+        })
     }
 
     onClick = (object) => {
@@ -205,6 +214,11 @@ class Calendar extends React.Component {
 
     render() {
         return (
+            <div style = {{ height: 600 + 'px' }}>
+            {this.state.currentEditing && <CardEditor 
+              event={this.state.currentEditing} 
+              saveHandler={this.saveEdit}
+            />}
             <DragAndDropCalendar
               selectable
               components={{event: Card}}
@@ -225,8 +239,7 @@ class Calendar extends React.Component {
               onDragStart={this.onDragStart}
               defaultView={BigCalendar.Views.DAY}
               defaultDate={new Date()}
-
-            />)
+            /></div>)
     }
 }
 
