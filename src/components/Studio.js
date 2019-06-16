@@ -62,7 +62,7 @@ class Studio extends Component {
             </Link>
             <hr />
             <h2>Classes</h2>
-            <div style = { { height: 600 + 'px' } }>
+            <div style = {{ height: 600 + 'px'}}>
                 <CalendarEditorContainer studioId={this.props.id} />
             </div>
             <h2>Trainers</h2>

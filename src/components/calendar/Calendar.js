@@ -5,6 +5,7 @@ import moment from 'moment'
 import BigCalendar from 'react-big-calendar'
 
 import Card from './Card';
+import CardEditor from './CardEditor';
 
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
@@ -59,16 +60,14 @@ class Calendar extends React.Component {
     }
 
     saveEdit(event) {
-        console.log('Save EDIT ', event)
-
         const nextEvents = this.state.events.map(existingEvent => {
-            return existingEvent.id == event.id ? { ...event, editing: false } :
+            return existingEvent.id == event.id ? { ...event } :
                 existingEvent
         })
 
-
         this.props.editClass(event);
         this.setState({
+            currentEditing: null,
             events: nextEvents,
         })
     }
@@ -84,7 +83,6 @@ class Calendar extends React.Component {
         } else if (event.allDay && !droppedOnAllDaySlot) {
             allDay = false
         }
-        console.log('MOVE EVENT', this.state.events[idx])
         const updatedEvent = { ...this.state.events[idx], editing: false, start, end, allDay, resourceId }
 
         const nextEvents = [...events]
@@ -131,7 +129,6 @@ class Calendar extends React.Component {
         this.setState({
             events: this.state.events.concat([hour]),
         })
-        console.log(this.props.studioId)
         this.props.createClass(hour, this.props.studioId)
     }
 
@@ -174,15 +171,22 @@ class Calendar extends React.Component {
               events: nextEvents,
           })
           */
+        const { events } = this.state
+        const idx = events.indexOf(object)
+        console.log(events[idx])
+
+        this.setState({
+            ...this.state,
+            currentEditing: events[idx]
+        })
     }
 
     onClick = (object) => {
-        if (object.editing == true) return;
+
     }
 
     onDragStart = (event) => {
-        console.log('DRAFG START')
-        return;
+
     }
 
     eventStyleGetter = (event, start, end, isSelected) => {
@@ -205,9 +209,13 @@ class Calendar extends React.Component {
 
     render() {
         return (
+            <div>
+            {this.state.currentEditing && <CardEditor 
+              event={this.state.currentEditing} 
+              saveHandler={this.saveEdit}
+            />}
             <DragAndDropCalendar
               selectable
-              components={{event: Card}}
               localizer={localizer}
               events={this.state.events}
               draggableAccessor={this.draggableAccessor}
@@ -226,7 +234,8 @@ class Calendar extends React.Component {
               defaultView={BigCalendar.Views.DAY}
               defaultDate={new Date()}
 
-            />)
+            />
+            </div>)
     }
 }
 

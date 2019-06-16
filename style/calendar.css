@@ -46,11 +46,6 @@ button.rbc-input::-moz-focus-inner {
     bottom: 0;
 }
 
-.rbc-event-content {
-    font-size: .8em;
-    font-weight: 600;
-}
-
 .rbc-ellipsis,
 .rbc-event-label,
 .rbc-row-segment .rbc-event-content,
@@ -84,16 +79,16 @@ button.rbc-input::-moz-focus-inner {
     font-weight: bold;
     font-size: 90%;
     min-height: 0;
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid #DDD;
 }
 
 .rbc-header+.rbc-header {
-    border-left: 1px solid #efefef;
+    border-left: 1px solid #DDD;
 }
 
 .rbc-rtl .rbc-header+.rbc-header {
     border-left-width: 0;
-    border-right: 1px solid #efefef;
+    border-right: 1px solid #DDD;
 }
 
 .rbc-header>a,
@@ -111,7 +106,7 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-today {
-    background-color: #fff;
+    background-color: #eaf6ff;
 }
 
 .rbc-toolbar {
@@ -137,7 +132,7 @@ button.rbc-input::-moz-focus-inner {
     vertical-align: middle;
     background: none;
     background-image: none;
-    border: 1px solid #eee;
+    border: 1px solid #ccc;
     padding: .375rem 1rem;
     border-radius: 4px;
     line-height: normal;
@@ -149,7 +144,7 @@ button.rbc-input::-moz-focus-inner {
     background-image: none;
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     background-color: #e6e6e6;
-    border-color: #ddd;
+    border-color: #adadad;
 }
 
 .rbc-toolbar button:active:hover,
@@ -223,19 +218,12 @@ button.rbc-input::-moz-focus-inner {
     box-shadow: none;
     margin: 0;
     padding: 2px 5px;
-    background-color: #0073E6;
+    background-color: #3174ad;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
     width: 100%;
     text-align: left;
-    -webkit-border-radius: 5px !important;
-    -moz-border-radius: 5px !important;
-    border-radius: 5px !important;
-}
-
-.rbc-event-label {
-    display: none !important;
 }
 
 .rbc-slot-selecting .rbc-event {
@@ -244,7 +232,7 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-event.rbc-selected {
-    background-color: #0073E6;
+    background-color: #265985;
 }
 
 .rbc-event:focus {
@@ -715,12 +703,100 @@ button.rbc-input::-moz-focus-inner {
     pointer-events: none;
 }
 
-.rbc-edit-popup {
+.rbc-addons-dnd .rbc-addons-dnd-row-body {
+    position: relative;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-drag-row {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    right: 0;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-over {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.rbc-addons-dnd .rbc-event {
+    transition: opacity 150ms;
+}
+
+.rbc-addons-dnd .rbc-event:hover .rbc-addons-dnd-resize-ns-icon,
+.rbc-addons-dnd .rbc-event:hover .rbc-addons-dnd-resize-ew-icon {
+    display: block;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-dragged-event {
+    opacity: 0;
+}
+
+.rbc-addons-dnd.rbc-addons-dnd-is-dragging .rbc-event:not(.rbc-addons-dnd-dragged-event):not(.rbc-addons-dnd-drag-preview) {
+    opacity: .50;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resizable {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ns-anchor {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ns-anchor:first-child {
+    top: 0;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ns-anchor:last-child {
+    bottom: 0;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ns-anchor .rbc-addons-dnd-resize-ns-icon {
+    display: none;
+    border-top: 3px double;
+    margin: 0 auto;
+    width: 10px;
+    cursor: ns-resize;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ew-anchor {
+    position: absolute;
+    top: 4px;
+    bottom: 0;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ew-anchor:first-child {
+    left: 0;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ew-anchor:last-child {
+    right: 0;
+}
+
+.rbc-addons-dnd .rbc-addons-dnd-resize-ew-anchor .rbc-addons-dnd-resize-ew-icon {
+    display: none;
+    border-left: 3px double;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 10px;
+    cursor: ew-resize;
+}
+
+
+.rbc-edit-layer {
+    position: absolute;
+    background-color: #20c997;
+    margin: 0px;
+    padding: 0px;
     z-index: 15;
-    width: 400px;
-    height: 400px;
-    background-color: #fc0;
+    opacity: 0.95;
+    border-radius: 5px;
+}
+
+.rbc-edit-input {
+    background-color: #0D9970 !important;
 }
