@@ -45,11 +45,12 @@ class Card extends React.Component {
       			  		<button onClick={this.handleSave}>Save</button>
       			 	</div>
 	        	}
-            <strong>{moment(this.props.event.start).format('hh:mma')}</strong>
-	        	<span> {this.props.event.title}</span>
-	        	
-	        	<br /><br />
-	        	{JSON.stringify(this.props.event)}
+          
+	        	<span> {this.props.event.title}</span><br />
+	      <span>{//moment(this.props.event.start).format('hh:mma')
+	  }  	</span>
+	        	<br /> 
+	        	 
 	    	</div>
         );
     }
