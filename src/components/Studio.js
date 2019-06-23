@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { Form, Field } from 'react-final-form'
 
 import CalendarEditorContainer from './../containers/admin/CalendarEditorContainer.js';
+import TrainerEditorContainer from './../containers/admin/TrainerEditorContainer.js';
 
 
 import moment from 'moment'
@@ -66,7 +67,9 @@ class Studio extends Component {
                 <CalendarEditorContainer studioId={this.props.id} />
             </div>
             <h2>Trainers</h2>
-          
+            <div>
+                <TrainerEditorContainer studioId={this.props.id} />
+            </div>
             </div>)
     }
 }

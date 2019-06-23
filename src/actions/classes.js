@@ -45,6 +45,7 @@ export function fetchClassesFailure(error) {
 
 
 export function editClass(editedClass, tokenFromStorage) {
+    console.log('REDUCER CALLED WITH', editedClass)
     const request = fetch(`${ROOT_URL}/class/${editedClass.remoteId}`, {
         method: 'PUT',
         body: JSON.stringify(editedClass),

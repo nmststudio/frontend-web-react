@@ -39,18 +39,18 @@ class Card extends React.Component {
 
         return (
             <div>
-            {this.props.event.editing  &&
-	        		<div className="rbc-edit-popup">
-	        			<input type="text" value={this.state.edited.title || ''} onChange={this.handleTitleChange} /> 
-      			  		<button onClick={this.handleSave}>Save</button>
-      			 	</div>
-	        	}
-          
-	        	<span> {this.props.event.title}</span><br />
-	      <span>{//moment(this.props.event.start).format('hh:mma')
-	  }  	</span>
-	        	<br /> 
-	        	 
+	        	<span className="rbc-card-title"> {this.props.event.title}</span>
+	        	{this.props.event.trainers.map((item, i) => {
+				  return(
+				    <span className="rbc-invitee" key={i}>
+					    <span className="rbc-avatar">
+						  <img src={"https://randomuser.me/api/portraits/women/"+item.id%10+".jpg"} alt="" />
+						</span> 
+						<span className = "rbc-invitee-name" > { item.firstname } { item.lastname } < /span>
+
+				    </span>
+				  )
+				})}
 	    	</div>
         );
     }

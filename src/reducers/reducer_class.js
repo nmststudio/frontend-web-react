@@ -4,7 +4,10 @@ import {
     CREATE_CLASS_FAILURE,
     FETCH_CLASSES,
     FETCH_CLASSES_SUCCESS,
-    FETCH_CLASSES_FAILURE
+    FETCH_CLASSES_FAILURE,
+    EDIT_CLASS,
+    EDIT_CLASS_SUCCESS,
+    EDIT_CLASS_FAILURE
 } from '../actions/classes';
 
 const INITIAL_STATE = {
@@ -40,6 +43,31 @@ export default function(state = INITIAL_STATE, action) {
         case FETCH_CLASSES_FAILURE: // return error and make loading = false
             error = action.payload || { message: action.payload.message }; //2nd one is network or server down errors
             return { ...state, error: error, loading: false };
+
+
+
+        case EDIT_CLASS:
+            return { ...state, error: null, loading: true };
+        case EDIT_CLASS_SUCCESS:
+            //Find and replace existing Trainer:
+            console.log('TRYING TO UPDATE--- ', action.payload)
+            let idx = -1
+            for (var i = 0; i < state.classList.length; i++) {
+                if (action.payload.id == state.classList[i].id) {
+                    idx = i;
+                }
+            }
+
+            let newClassList = state.classList.splice(0, idx).concat([action.payload])
+
+            newClassList = newClassList.concat(state.classList.splice(1, state.classList.length))
+            console.log('---NEW CLASS LIST- ', newClassList)
+            return { ...state, classList: newClassList, error: null, loading: false };
+
+        case EDIT_CLASS_FAILURE:
+            error = action.payload || { message: action.payload.message, loading: false };
+
+
 
         default:
             return state;

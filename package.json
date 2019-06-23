@@ -48,6 +48,7 @@
     "react-redux": "^4.0.0",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
+    "react-table": "^6.10.0",
     "react-tackle-box": "^2.1.0",
     "redux": "^3.0.4",
     "redux-promise": "^0.5.1",

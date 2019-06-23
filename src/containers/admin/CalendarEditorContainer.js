@@ -10,6 +10,12 @@ import {
     editClassSuccess,
     editClassFailure
 } from '../../actions/classes';
+import {
+    fetchTrainers,
+    fetchTrainersSuccess,
+    fetchTrainersFailure,
+} from '../../actions/trainers';
+
 import { connect } from 'react-redux';
 
 
@@ -32,9 +38,9 @@ const mapDispatchToProps = (dispatch) => {
             });
 
         },
-        editClass: (event) => {
+        editClass: (editedClass) => {
             const jwtToken = localStorage.getItem('jwtToken')
-            dispatch(editClass(event, jwtToken)).then(response => {
+            dispatch(editClass(editedClass, jwtToken)).then(response => {
                 if (!response.payload.ok) {
                     throw Error(response.payload.statusText);
                 }
@@ -43,9 +49,10 @@ const mapDispatchToProps = (dispatch) => {
                 // Note: Error's "data" is in result.payload.response.data (inside "response")
                 // success's "data" is in result.payload.data
                 //console.log(result)
-                dispatch(createClassSuccess(result));
+                console.log('RESULT RECEIVED FROM API')
+                dispatch(editClassSuccess(result));
             }).catch((err) => {
-                dispatch(createClassFailure(err))
+                dispatch(editClassFailure(err))
             });
 
         },
@@ -67,6 +74,25 @@ const mapDispatchToProps = (dispatch) => {
             }).catch((err) => {
                 dispatch(fetchClassesFailure(err))
             });
+        },
+        fetchTrainers: (studioId) => {
+            console.log('FETCH TRAINERS ----')
+            const jwtToken = localStorage.getItem('jwtToken')
+            dispatch(fetchTrainers(studioId, jwtToken)).then(response => {
+                if (!response.payload.ok) {
+                    throw Error(response.payload.statusText);
+                }
+
+                return response.payload.json();
+            }).then(result => {
+                console.log(result)
+                // Note: Error's "data" is in result.payload.response.data (inside "response")
+                // success's "data" is in result.payload.data
+                //console.log(result)
+                dispatch(fetchTrainersSuccess(result));
+            }).catch((err) => {
+                dispatch(fetchTrainersFailure(err))
+            });
         }
 
     }
@@ -74,11 +100,13 @@ const mapDispatchToProps = (dispatch) => {
 
 
 function mapStateToProps(state, ownProps) {
-
+    console.log('RECEIVED NEW STATE', state)
     if (!ownProps.studioId) return {};
     return {
         studioId: ownProps.studioId,
-        classes: state.classes.classList
+        classes: state.classes.classList,
+        isLoadingClasses: state.classes.loading,
+        trainers: state.trainers.trainers
     };
 }
 

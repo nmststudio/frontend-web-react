@@ -31,14 +31,16 @@ class Calendar extends React.Component {
         this.onDoubleClick = this.onDoubleClick.bind(this)
         this.saveEdit = this.saveEdit.bind(this)
         this.props.fetchClasses(this.props.studioId)
+        this.props.fetchTrainers(this.props.studioId)
 
     }
 
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('UPDATE PROPS IN CALENDAR', this.props)
+        if (this.props == prevProps) return;
         let idx = 0;
-        if (this.state.areEventsOutOfDate && this.props.classes.length > 0) {
+        if (this.props.classes.length > 0) {
+            console.log('UPDATE EVENTS', this.props.classes);
             let events = this.props.classes.map(obj => {
                 return {
                     id: ++idx,
@@ -47,9 +49,9 @@ class Calendar extends React.Component {
                     start: moment(obj.startTime).toDate(),
                     end: moment(obj.endTime).toDate(),
                     resourceId: 1,
+                    trainers: Array.from(obj.trainers || [])
                 }
             })
-            console.log('UPDATE EVENTS ', events.length)
             this.setState({
                 ...this.state,
                 events: events,
@@ -59,7 +61,6 @@ class Calendar extends React.Component {
     }
 
     saveEdit(event) {
-        console.log('Save EDIT ', event)
 
         const nextEvents = this.state.events.map(existingEvent => {
             return existingEvent.id == event.id ? { ...event, editing: false } :
@@ -67,11 +68,14 @@ class Calendar extends React.Component {
         })
 
 
-        this.props.editClass(event);
         this.setState({
+            ...this.state,
+            areEventsOutOfDate: true,
             currentEditing: null,
-            events: nextEvents,
+            remoteCall: true,
         })
+
+        this.props.editClass(event);
     }
 
     moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot, resourceId }) {
@@ -85,7 +89,7 @@ class Calendar extends React.Component {
         } else if (event.allDay && !droppedOnAllDaySlot) {
             allDay = false
         }
-        console.log('MOVE EVENT', this.state.events[idx])
+
         const updatedEvent = { ...this.state.events[idx], editing: false, start, end, allDay, resourceId }
 
         const nextEvents = [...events]
@@ -132,7 +136,6 @@ class Calendar extends React.Component {
         this.setState({
             events: this.state.events.concat([hour]),
         })
-        console.log(this.props.studioId)
         this.props.createClass(hour, this.props.studioId)
     }
 
@@ -194,33 +197,18 @@ class Calendar extends React.Component {
         return;
     }
 
-    eventStyleGetter = (event, start, end, isSelected) => {
-        /* console.log(event);
-         var backgroundColor = '#fab16c';
-         var style = {
-             backgroundColor: backgroundColor,
-             borderRadius: '0px',
-             opacity: 0.8,
-             color: 'black',
-             border: '0px',
-             display: 'block'
-         };
-         return {
-             style: style
-         }
-         */
-
-    }
-
     render() {
         return (
             <div style = {{ height: 600 + 'px' }}>
             {this.state.currentEditing && <CardEditor 
               event={this.state.currentEditing} 
               saveHandler={this.saveEdit}
+              invitee={this.props.trainers}
             />}
             <DragAndDropCalendar
               selectable
+              min = { new Date(2017, 10, 0, 6, 0, 0) }
+              max = { new Date(2030, 10, 0, 22, 0, 0) }
               components={{event: Card}}
               localizer={localizer}
               events={this.state.events}
