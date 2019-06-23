@@ -203,7 +203,7 @@ class Calendar extends React.Component {
             {this.state.currentEditing && <CardEditor 
               event={this.state.currentEditing} 
               saveHandler={this.saveEdit}
-              invitee={this.props.trainers}
+              invitee={Array.from(this.props.trainers)}
             />}
             <DragAndDropCalendar
               selectable
