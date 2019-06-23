@@ -229,15 +229,13 @@ button.rbc-input::-moz-focus-inner {
 .rbc-event {
     border: none;
     box-shadow: none;
-    margin-left: 2%;
-    margin-left: 2%;
     padding: 2px 5px;
     border: 1px solid #7ecdfc;
     background-color: #bee7ff;
     border-radius: 5px;
     color: #008cdf;
     cursor: pointer;
-    max-width: 96% !important;
+    max-width: 100% !important;
     text-align: left;
     -webkit-border-radius: 5px !important;
     -moz-border-radius: 5px !important;

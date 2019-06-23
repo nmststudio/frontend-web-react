@@ -9,7 +9,12 @@ class CardEditor extends React.Component {
         this.state = {
             edited: {
                 ...this.props.event
-            }
+            },
+            backup: {
+                ...this.props.event
+            },
+            currentEditingId: this.props.event.id
+
         };
         this.handleSave = this.handleSave.bind(this)
         this.handleReset = this.handleReset.bind(this)
@@ -18,9 +23,11 @@ class CardEditor extends React.Component {
     componentDidUpdate(prevProps, prevState) {
 
         if (!this.props.event) {
+
             return;
         }
         if (this.state.currentEditingId == this.props.event.id) {
+
             return;
         }
         this.setState({
@@ -33,18 +40,23 @@ class CardEditor extends React.Component {
                 ...this.props.event
             }
         })
+
     }
 
     handleTitleChange(event) {
         this.setState({
-            ...this.state,
-            edited: {
-                ...this.state.edited,
-                title: event.target.value
-            }
-        });
+                ...this.state,
+                edited: {
+                    ...this.state.edited,
+                    title: event.target.value
+                }
+            },
+
+            function() { console.log(this.state) });
+
     };
     handleReset(event) {
+        console.log('reset fron', this.state)
         this.setState({
             ...this.state,
             edited: {
@@ -62,7 +74,7 @@ class CardEditor extends React.Component {
         return (
             <div className="rbc-edit-layer">
                 <div>
-                    <input className="rbc-edit-input" type="text" value={this.state.edited.title || ''} onChange={this.handleTitleChange} /> 
+                    <input autofocus="true" className="rbc-edit-input" type="text" value={this.state.edited.title || ''} onChange={this.handleTitleChange} /> 
                     
                  </div>
                 <strong></strong>
