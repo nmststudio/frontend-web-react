@@ -25,6 +25,10 @@ function validate(values) {
 }
 
 
+const EMAIL_STEP = 'EMAIL_STEP';
+const VANITY_URL_STEP = 'VANITY_URL_STEP';
+const STUDIO_CREATED = 'STUDIO_CREATED';
+
 class SignUpForm extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -34,6 +38,9 @@ class SignUpForm extends Component {
         super(props);
         // This binding is necessary to make `this` work in the callback
         this.validateAndSignUpUser = this.validateAndSignUpUser.bind(this);
+        this.handleStudioNameChange = this.handleStudioNameChange.bind(this);
+        this.submitStudioNameHandler = this.submitStudioNameHandler.bind(this);
+        this.state = { current_step: EMAIL_STEP, studioName: 'Studio Name' }
     }
 
     componentWillMount() {
@@ -44,9 +51,20 @@ class SignUpForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user.status === 'authenticated' && nextProps.user.user && !nextProps.user.error) {
-            console.log(this.props.history)
-            this.props.history.push('/')
-            //this.context.router.push('/');
+
+            // this.props.history.push('/')
+            this.setState({
+                current_step: VANITY_URL_STEP
+            })
+        }
+        console.log(nextProps, nextProps.studio)
+
+        if (nextProps.studio && nextProps.studio.length > 0) {
+            console.log('REceived')
+            this.setState({
+                current_step: STUDIO_CREATED
+            })
+            this.props.history.push('/admin/studio/' + nextProps.studio[0].id)
         }
     }
 
@@ -54,54 +72,81 @@ class SignUpForm extends Component {
         return this.props.signUpUser(values)
     };
 
+    // STUDIO NAME
+
+
+    handleStudioNameChange(event) {
+        this.setState({
+            ...this.state,
+            studioName: event.target.value
+        })
+    };
+
+    submitStudioNameHandler(event) {
+        console.log('button clicked', this.state.studioName)
+        this.props.submitStudioName(this.state.studioName)
+
+    }
+
     render() {
         const { asyncValidating, handleSubmit, submitting, asyncValidate, validate, dispatch } = this.props;
         return (
             <section id="notable-ai" className="benefit product-benefit-1">
           <div className="row row-1 odd">
           <div className="col-md order-md-last justify-content-start">
-           <Form
-           validate={validate}
-           initialValues={{ username:Math.floor(Math.random()*10000000)+'@g.com',password:'test' }}
-            onSubmit={this.validateAndSignUpUser}
-            render={({ handleSubmit, form, submitting, pristine, values }) => (
-              <form onSubmit = { handleSubmit }>
-                <div>
-                  <label>Email:</label>
-                  <Field
-                    name="username"
-                    component="input"
-                    type="text"
-                    placeholder="email"
-                  />
-                </div> 
-                <div>
-                  <label>Password:</label>
-                  <Field
-                    name="password"
-                    component="input"
-                    type="password"
-                    placeholder="Password"
-                  />
-                </div>
-               
-                <div className="buttons">
+          { this.state.current_step == EMAIL_STEP && 
+             <Form
+             validate={validate}
+             initialValues={{ username:Math.floor(Math.random()*10000000)+'@g.com',password:'test' }}
+              onSubmit={this.validateAndSignUpUser}
+              render={({ handleSubmit, form, submitting, pristine, values }) => (
+                <form onSubmit = { handleSubmit }>
+                  <div>
+                    <label>Email:</label>
+                    <Field
+                      name="username"
+                      component="input"
+                      type="text"
+                      placeholder="email"
+                    />
+                  </div> 
+                  <div>
+                    <label>Password:</label>
+                    <Field
+                      name="password"
+                      component="input"
+                      type="password"
+                      placeholder="Password"
+                    />
+                  </div>
+                  <div className="buttons">
+                    <button className="btn btn-primary" type="submit" disabled={submitting}>
+                      Next
+                    </button>
+                  </div>
+                  <pre>{JSON.stringify(values, 0, 2)}</pre>
+                </form>
+              )}
+            />
+          }
+          { this.state.current_step === VANITY_URL_STEP && 
+            <div>
+              <label> Studio Name </label>
+              <br />
+              <input type="text" value={this.state.studioName || ''} onChange={this.handleStudioNameChange} /> 
+              <button className="btn btn-primary" type="submit" onClick={this.submitStudioNameHandler} >
+                Finish
+              </button>
+            </div>       
+          }
+          </div>
+          
 
-              
-
-                  <button className="btn btn-primary" type="submit" disabled={submitting}>
-                    Submit
-                  </button>
-                
-                </div>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
-              </form>
-            )}
-          /></div>
           <div className="col-md order-md-first justify-content-start">
             <div className="text-wrapper">
-              <h2>It takes only 1 minute</h2>
-              <p>Copy to Signup</p>
+              <h2>It only takes 1 minute</h2>
+              <p>{JSON.stringify(this.state)}</p> 
+               <p>{JSON.stringify(this.props)}</p> 
             </div>
           </div>
         </div>

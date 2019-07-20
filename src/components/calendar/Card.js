@@ -6,7 +6,6 @@ class Card extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log('existing Props', this)
         this.state = {
             edited: {
                 ...this.props.event
@@ -27,7 +26,6 @@ class Card extends React.Component {
     };
 
     handleSave(event) {
-        console.log(this.props)
 
         // ACCEPTING AN OBJECT IN THE SHAPE OF { event, start, end, isAllDay: droppedOnAllDaySlot, resourceId }
         this.props.event.saveEdit(this.state.edited)
@@ -40,7 +38,7 @@ class Card extends React.Component {
         return (
             <div>
 	        	<span className="rbc-card-title"> {this.props.event.title}</span>
-	        	{this.props.event.trainers.map((item, i) => {
+	        	{this.props.event.trainers && this.props.event.trainers.map((item, i) => {
 				  return(
 				    <span className="rbc-invitee" key={i}>
 					    <span className="rbc-avatar">

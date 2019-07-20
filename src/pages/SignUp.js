@@ -8,7 +8,7 @@ class SignUp extends Component {
             <div>
         <HeaderContainer type="posts_new"/>
         <div className="container" >
-        <SignUpFormContainer />
+        	<SignUpFormContainer />
         </div>
       </div>
         );

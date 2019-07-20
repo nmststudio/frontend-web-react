@@ -32,6 +32,11 @@ ReactDOM.render(
         <Router>
        		<Switch>
 			    <Route exact path="/" component={PostsIndex} /> 
+
+			    // FrontStore Routes
+			    <Route path = "/signup" component = { SignUp } /> 
+
+
 			    // Admin Routes
 			    <Route path = "/admin/studio/new" component = { StudioCreation } /> 
 			    <Route path = "/admin/studio/edit/:id" component = { StudioEdit } /> 
@@ -40,7 +45,6 @@ ReactDOM.render(
 			    // Studio Site Routes
 			    <Route path = "posts/:id" component = { PostsShow } />
 			    <Route path = "/signin" component = { SignIn } /> 
-			    <Route path = "/signup" component = { SignUp } /> 
 			    <Route path = "/forgotPwd" component = { ForgotPwd } />
 			    <Route path = "/validateEmail/:token" component = { ValidateEmail } />
 			    <Route path = "/profile" component = { Profile }/>

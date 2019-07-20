@@ -242,6 +242,17 @@ button.rbc-input::-moz-focus-inner {
     border-radius: 5px !important;
 }
 
+.rbc-invitee {
+    display: block;
+    border-radius: 15px;
+    height: 30px;
+    background-color: #85a9bf;
+    float: left;
+    overflow: hidden;
+    margin-left: 2px;
+    margin-bottom: 2px;
+}
+
 .rbc-event-label {
     display: none !important;
 }
@@ -721,10 +732,11 @@ button.rbc-input::-moz-focus-inner {
     z-index: 3;
     left: 0;
     right: 0;
-    height: 1px;
-    background-color: #f6b8b1;
-
-    box-shadow: 0px 3px 5px 0px rgba(241, 179, 175, 0.5);
+    height: 2px;
+    background-color: #045d91;
+    -webkit-box-shadow: 0px -4px 5px -1px rgba(0, 0, 0, 0.79);
+    -moz-box-shadow: 0px -4px 5px -1px rgba(0, 0, 0, 0.79);
+    box-shadow: 0px -4px 5px -1px rgba(0, 0, 0, 0.79);
     pointer-events: none;
 }
 
@@ -758,17 +770,7 @@ button.rbc-input::-moz-focus-inner {
     margin-bottom: 4px;
 }
 
-.rbc-invitee {
-    display: block;
-    border-radius: 15px;
-    height: 30px;
-    background-color: #f0598f;
-    float: left;
-    overflow: hidden;
-    margin-left: 2px;
-    margin-bottom: 2px;
 
-}
 
 .rbc-avatar {
     width: 28px;

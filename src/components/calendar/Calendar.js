@@ -199,7 +199,7 @@ class Calendar extends React.Component {
 
     render() {
         return (
-            <div style = {{ height: 600 + 'px' }}>
+            <div style = {{ height: 1200 + 'px' }}>
             {this.state.currentEditing && <CardEditor 
               event={this.state.currentEditing} 
               saveHandler={this.saveEdit}
